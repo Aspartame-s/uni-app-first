@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "苏e学堂",
+  "navigationBarBackgroundColor": "#eee",
+  "usingComponents": {
+    "row-list": "/components/rowList/rowList",
+    "col-list": "/components/colList/colList",
+    "attend-calendar": "/components/attend-calendar/attend-calendar"
+  }
+}

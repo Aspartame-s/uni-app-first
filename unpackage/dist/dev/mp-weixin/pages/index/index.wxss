@@ -1,0 +1,139 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.all {
+  padding-bottom: 126rpx;
+}
+.container {
+  min-height: 100vh;
+  background-color: #FAE9CD;
+  background-image: url("https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view/img/beijingtu.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: left 0 top 30rpx;
+  padding: 141rpx 28rpx 20rpx;
+  font-size: 14px;
+  line-height: 24px;
+}
+.logo {
+  position: absolute;
+  left: 536rpx;
+  right: 48rpx;
+  top: 24rpx;
+  width: 186rpx;
+  height: 64rpx;
+}
+.kechengbiao {
+  width: 306rpx;
+  height: 74rpx;
+  /* position: absolute; */
+  /* top: 282rpx;
+	left: 246rpx; */
+  margin-top: 140rpx;
+  margin-left: 208rpx;
+  margin-bottom: 44rpx;
+}
+.kechengbiao-img {
+  width: 100%;
+  height: 100%;
+}
+.course-container {
+  margin-top: 16rpx;
+  width: 100%;
+  height: auto;
+  /* min-height: 500rpx; */
+  border-radius: 16rpx;
+  background-color: #fff;
+  padding: 62rpx 21rpx 42rpx;
+  display: flex;
+  overflow-x: scroll;
+  margin-bottom: 16rpx;
+}
+.date-component-container {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.link-container {
+  width: 100%;
+  height: 80rpx;
+  /* background-color: pink; */
+  position: absolute;
+  bottom: -46rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 68rpx 0 72rpx;
+}
+.link {
+  width: 24rpx;
+  height: 80rpx;
+}
+.swiper {
+  height: 232rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.swiperitem {
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.bannerImg {
+  width: 694rpx;
+  height: 100%;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.living-and-liveback-container {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  padding: 48rpx 26rpx 2rpx 24rpx;
+  border-radius: 16rpx;
+}
+.container-head {
+  width: 100%;
+  height: 77rpx;
+  position: relative;
+  margin-bottom: 34rpx;
+}
+.tab-container {
+  width: 392rpx;
+  height: 77rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+}
+.tab-container .tab-item {
+  width: 172rpx;
+  height: 77rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.tab-container .tab-item .tabTitle {
+  width: 172rpx;
+  height: 46rpx;
+}
+.tab-container .tab-item .tabActiveLine {
+  width: 50rpx;
+  height: 12rpx;
+}
+.see-more {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 24rpx;
+  color: #666666;
+}
+.see-more .more {
+  width: 10rpx;
+  height: 19rpx;
+  margin-left: 28rpx;
+}
+.container-body {
+  width: 100%;
+  height: auto;
+}
+

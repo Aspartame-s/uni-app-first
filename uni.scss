@@ -1,0 +1,40 @@
+@import '@/uni_modules/uni-scss/variables.scss';
+.all {
+	padding-bottom: 126rpx;
+}
+@mixin center() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@mixin between() {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+@mixin around() {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+@mixin centerColumn() {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin betweenColumn() {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+@mixin aroundColumn() {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
