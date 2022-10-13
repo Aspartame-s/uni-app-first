@@ -1,8 +1,12 @@
 <template>
 	<view class="list-row-container" :style="{'marginBottom': hasMargin ? '40rpx' : '0'}">
 		<view class="container-left" @click="play">
-			<view class="start-time">
+			<view class="start-time" v-if="!isLiving">
 				{{lessonInfo.startTime.substring(11, 16)}}
+			</view>
+			<view class="is-living" v-if="isLiving">
+				<image src="../../static/img/livingIcon@2x.png" mode="" class="living-icon"></image>
+				正在直播
 			</view>
 			<view class="video-container">
 				<image :src="lessonInfo.lessonCover" class="bg-img"></image>
@@ -19,12 +23,12 @@
 					<image :src="lessonInfo.teacher.teacherAvatar" class="teacher-icon"></image>
 					<span class="teacher-name">{{lessonInfo.teacher.teacherName}}</span>
 				</view>
-				<view v-if="false">
+				<view v-if="isShowTime">
 					<view class="live-time" v-if="Number(lessonInfo.videoDuration) >= Number(lessonInfo.elapsedTime)">
 						已播{{lessonInfo.elapsedTime}}分钟</view>
 					<view class="live-time" v-else>已播完</view>
 				</view>
-				<view class="view-container">
+				<view class="view-container" v-if="!isShowTime">
 					<image src="../../static/img/viewCount@2x.png" mode="" class="view-count"></image>
 					<span class="count-num">{{lessonInfo.views}}</span>
 				</view>
@@ -43,10 +47,18 @@
 				type: Object,
 				default: {}
 			},
-			hasMargin: {
+			hasMargin: { //判断是否有margin-bottom
 				type: Boolean,
 				default: true
-			}
+			},
+			isLiving: { //判断左上角标识是直播还是 时间
+				type: Boolean,
+				default: false
+			},
+			isShowTime: { //判断右下角是观看次数还是已播多久
+				type: Boolean,
+				default: true
+			},
 		},
 		data() {
 			return {
@@ -116,7 +128,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.list-row-container {
 		/* background-color: pink; */
 		width: 100%;
@@ -170,6 +182,24 @@
 		font-size: 24rpx;
 		color: #fff;
 	}
+	.is-living {
+		z-index: 99;
+		background-color: #FD9770;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 129rpx;
+		height: 43rpx;
+		border-radius: 16rpx 0 16rpx 0;
+		@include center;
+		color: #fff;
+		font-size: 20rpx;
+		.living-icon {
+			width: 25rpx;
+			height: 23rpx;
+			margin-right: 4rpx;
+		}
+	}
 
 	.bg-img {
 		width: 100%;
@@ -211,7 +241,7 @@
 		width: 100%;
 		height: 40rpx;
 		display: flex;
-		padding-right: 20rpx;
+		// padding-right: 20rpx;
 		justify-content: space-between;
 		align-items: center;
 		position: absolute;

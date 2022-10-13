@@ -14,7 +14,7 @@
 		</view>
 		<view class="course-container">
 			<row-list v-if="lessonDataOnlyOne" v-for="(item, index) in lessonDataOnlyOne" :key="index"
-				:lessonInfo="item" :hasMargin="false"></row-list>
+				:lessonInfo="item" :hasMargin="false" :isShowTime="false"></row-list>
 			<col-list v-if="lessonDataMuch" v-for="(item, index) in lessonDataMuch" :key="index" :lessonInfo="item">
 			</col-list>
 		</view>
@@ -41,7 +41,7 @@
 			</view>
 			<view class="container-body">
 				<view v-if="path == '/living'">
-					<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item"></row-list>
+					<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item" :isLiving="true"></row-list>
 				</view>
 				<view v-else>
 					<row-list v-for="(item, index) in livingBackList" :key="index" :lessonInfo="item"></row-list>
@@ -103,7 +103,7 @@
 				],
 				path: "/living",
 				livingList: [],
-				livingBackList: []
+				livingBackList: [],
 			}
 		},
 		methods: {
