@@ -152,8 +152,13 @@
 			//获取直播回放列表
 			getLivingBackList() {
 				getLivingBackList().then(res => {
-					console.log(res)
 					this.livingBackList = res.data.slice(0,2)
+				})
+			},
+			seeMore() {
+				console.log(123)
+				uni.navigateTo({
+					url: `/pages/more/more?flag=${this.path}`
 				})
 			}
 		},

@@ -27,6 +27,12 @@
 				"navigationBarTitleText": "苏e学堂",
 				"navigationBarBackgroundColor": "#eee"
 			}
+		},
+		{
+			"path": "pages/more/more",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
