@@ -158,7 +158,7 @@
 			seeMore() {
 				console.log(123)
 				uni.navigateTo({
-					url: `/pages/more/more?flag=${this.path}`
+					url: `/pages/more/more?flag=${this.path}&headTitle=${this.path == '/living' ? '正在直播' : '直播回放'}`
 				})
 			}
 		},

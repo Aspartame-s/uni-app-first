@@ -30,4 +30,14 @@
 		color: #333;
 		padding: 10px;
 	}
+	// .swiper .wx-swiper-wrapper .wx-swiper-dots-horizontal .wx-swiper-dot-active {
+	// 		width: 40rpx;
+	// 		border-radius: 10rpx;
+	// 	}
+	
+	// .uni-swiper-dot-active {
+	// 			width: 40rpx!important;
+	// 			border-radius: 6rpx!important;
+	// 			background-color: #000 !important;
+	// 		}
 </style>

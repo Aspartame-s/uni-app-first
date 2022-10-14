@@ -3,7 +3,7 @@
 		<view class="placeholder" :style="{'height': (iStatusBarHeight * 2) + 'rpx'}"></view>
 		<view class="custom-bar" :style="{'marginTop': (iStatusBarHeight * 2) + 'rpx'}">
 			<image src="../../static/img/fanhui@2x.png" mode="" class="back" @click="back"></image>
-			历史记录
+			{{headTitle}}
 		</view>
 		<view :style="{'marginTop': (iStatusBarHeight * 2 + 104) + 'rpx'}">
 			<view class="list-item-container" v-for="(item, index) in (flag == '/living' ? livingList : livingBackList)">
@@ -28,7 +28,8 @@
 				livingList: [],
 				livingBackList: [],
 				flag: null,
-				iStatusBarHeight: null
+				iStatusBarHeight: null,
+				headTitle: ''
 			}
 		},
 		methods: {
@@ -52,6 +53,7 @@
 			 this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 			 console.log(uni.getSystemInfoSync().statusBarHeight)
 			 this.flag = option.flag
+			 this.headTitle = option.headTitle
 		 },
 		mounted() {
 			this.getLivingList()

@@ -204,7 +204,7 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);
 
 
 
-var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 51));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 58));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var attendCalendar = function attendCalendar() {Promise.all(/*! require.ensure | components/attend-calendar/attend-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/attend-calendar/attend-calendar")]).then((function () {return resolve(__webpack_require__(/*! ../../components/attend-calendar/attend-calendar.vue */ 65));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _require = __webpack_require__(/*! ../../utils/api/login */ 22),userLogin = _require.userLogin;var _default =
+var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 53));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 60));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var attendCalendar = function attendCalendar() {Promise.all(/*! require.ensure | components/attend-calendar/attend-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/attend-calendar/attend-calendar")]).then((function () {return resolve(__webpack_require__(/*! ../../components/attend-calendar/attend-calendar.vue */ 67));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _require = __webpack_require__(/*! ../../utils/api/login */ 22),userLogin = _require.userLogin;var _default =
 {
   components: {
     rowList: rowList,
@@ -298,7 +298,7 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
     seeMore: function seeMore() {
       console.log(123);
       uni.navigateTo({
-        url: "/pages/more/more?flag=".concat(this.path) });
+        url: "/pages/more/more?flag=".concat(this.path, "&headTitle=").concat(this.path == '/living' ? '正在直播' : '直播回放') });
 
     } },
 

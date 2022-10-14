@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.all {
+  padding-bottom: 126rpx;
+}
+.container {
+  min-height: 100vh;
+  background-color: #F8F8F8;
+}
+.container .banner-container {
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  padding: 20rpx 28rpx 15rpx;
+}
+.container .banner-container .base-title {
+  width: 100%;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 38rpx;
+}
+.container .banner-container .base-title .base-icon {
+  width: 10rpx;
+  height: 28rpx;
+  background-color: #F2B23A;
+  border-radius: 6rpx;
+  color: #1E1E20;
+  font-size: 32rpx;
+  margin-right: 28rpx;
+}
+.container .banner-container .swiper {
+  height: 417rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.container .banner-container .wx-swiper-dot-active {
+  width: 40rpx;
+  border-radius: 10rpx;
+}
+.container .banner-container .swiperitem {
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.container .banner-container .bannerImg {
+  width: 694rpx;
+  height: 360rpx;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
