@@ -152,6 +152,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
 var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18); //
 //
 //
@@ -171,12 +177,23 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18); //
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = { data: function data() {return { bannerList: [], showDocts: true, autoplay: true, interval: 2000, duration: 500, color: '#D8D8D8', activeColor: '#EB9A15' };}, methods: { getBannerList: function getBannerList() {var _this = this;(0, _lesson.getBannerList)().then(function (res) {// console.log(res)
-        _this.bannerList = res.data;});
+        _this.bannerList = res.data;});}, getCourseCategoryList: function getCourseCategoryList() {var _this2 = this;(0, _lesson.getCourseCategoryList)().then(function (res) {console.log(res);_this2.courseCategoryList = res.data;
+      });
     } },
 
   mounted: function mounted() {
     this.getBannerList();
+    this.getCourseCategoryList();
+  },
+  onShow: function onShow() {
+    this.setTabBarIndex(1);
   } };exports.default = _default;
 
 /***/ }),

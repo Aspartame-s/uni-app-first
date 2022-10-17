@@ -21,3 +21,8 @@ export const getLivingList = () => {
 export const getLivingBackList = () => {
 	return request(`/wxmini/lesson/page/history`, 'GET')
 }
+
+//课程类别列表
+export const getCourseCategoryList = () => {
+	return request(`/wxmini/course-category`, 'GET')
+}

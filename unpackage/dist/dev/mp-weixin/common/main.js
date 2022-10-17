@@ -23,6 +23,20 @@ _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread({},
 _App.default));
 
+
+_vue.default.mixin({
+  methods: {
+    setTabBarIndex: function setTabBarIndex(index) {
+      if (typeof this.$mp.page.getTabBar === 'function' &&
+      this.$mp.page.getTabBar()) {
+        this.$mp.page.getTabBar().setData({
+          selected: index });
+
+      }
+    } } });
+
+
+
 createApp(app).$mount();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 

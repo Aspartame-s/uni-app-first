@@ -180,6 +180,9 @@
 				this.getLivingList()
 				this.getLivingBackList()
 		},
+		onShow()  {
+						this.setTabBarIndex(0);
+				 },
 		onShareAppMessage(res) {
 			return {
 				title: '微信小程序测试分享',
@@ -196,7 +199,7 @@
 		background-size: 100%;
 		background-repeat: no-repeat;
 		background-position: left 0 top 30rpx;
-		padding: 141rpx 28rpx 20rpx; 
+		padding: 141rpx 28rpx 136rpx; 
 		font-size: 14px;
 		line-height: 24px;
 	}

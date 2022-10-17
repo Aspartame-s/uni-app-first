@@ -1,5 +1,5 @@
 <template>
-	<view class="container all">
+	<view class="container">
 		<view class="banner-container">
 			<view class="base-title">
 				<view class="base-icon"></view>
@@ -14,12 +14,19 @@
 				</swiper>
 			</view>
 		</view>
+		<view class="course-container">
+			<view class="base-title">
+				<view class="base-icon"></view>
+				全部课程
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		getBannerList
+		getBannerList,
+		getCourseCategoryList
 	} from '../../utils/api/lesson.js';
 	export default {
 		data() {
@@ -40,10 +47,20 @@
 					this.bannerList = res.data
 				})
 			},
+			getCourseCategoryList() {
+				getCourseCategoryList().then(res => {
+					console.log(res)
+					this.courseCategoryList = res.data
+				})
+			}
 		},
 		mounted() {
 			this.getBannerList()
-		}
+			this.getCourseCategoryList()
+		},
+		onShow()  {
+						this.setTabBarIndex(1);
+				 }
 	}
 </script>
 
@@ -51,36 +68,36 @@
 	.container {
 		min-height: 100vh;
 		background-color: #F8F8F8;
-
+		display: flex;
+		flex-direction: column;
+		.base-title {
+			width: 100%;
+			height: 44rpx;
+			display: flex;
+			align-items: center;
+			margin-bottom: 38rpx;
+		
+			.base-icon {
+				width: 10rpx;
+				height: 28rpx;
+				background-color: #F2B23A;
+				border-radius: 6rpx;
+				color: #1E1E20;
+				font-size: 32rpx;
+				margin-right: 28rpx;
+			}
+		}
 		.banner-container {
 			width: 100%;
 			height: auto;
 			background-color: #fff;
 			padding: 20rpx 28rpx 15rpx;
-
-			.base-title {
-				width: 100%;
-				height: 44rpx;
-				display: flex;
-				align-items: center;
-				margin-bottom: 38rpx;
-
-				.base-icon {
-					width: 10rpx;
-					height: 28rpx;
-					background-color: #F2B23A;
-					border-radius: 6rpx;
-					color: #1E1E20;
-					font-size: 32rpx;
-					margin-right: 28rpx;
-				}
-			}
+			margin-bottom: 16rpx;
 
 			.swiper {
 				height: 417rpx;
 				border-radius: 16rpx;
 				overflow: hidden;
-
 			}
 			
 			.wx-swiper-dot-active {
@@ -99,6 +116,12 @@
 				border-radius: 16rpx;
 				box-sizing: border-box;
 			}
+		}
+		.course-container {
+			width: 100%;
+			flex-grow: 1;
+			background-color: #fff;
+			padding: 28rpx 28rpx 40rpx;
 		}
 	}
 </style>

@@ -143,7 +143,12 @@ var _default =
 
 
   },
-  methods: {} };exports.default = _default;
+  methods: {},
+
+
+  onShow: function onShow() {
+    this.setTabBarIndex(2);
+  } };exports.default = _default;
 
 /***/ })
 

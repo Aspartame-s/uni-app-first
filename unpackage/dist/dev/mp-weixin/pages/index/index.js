@@ -320,6 +320,9 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
     this.getLivingList();
     this.getLivingBackList();
   },
+  onShow: function onShow() {
+    this.setTabBarIndex(0);
+  },
   onShareAppMessage: function onShareAppMessage(res) {
     return {
       title: '微信小程序测试分享',

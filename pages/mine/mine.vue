@@ -13,7 +13,10 @@
 		},
 		methods: {
 			
-		}
+		},
+		onShow()  {
+						this.setTabBarIndex(3);
+				 }
 	}
 </script>
 

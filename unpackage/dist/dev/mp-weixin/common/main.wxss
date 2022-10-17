@@ -37,7 +37,7 @@
   content: "\e610";
 }
 .all {
-  padding-bottom: 126rpx;
+  padding-bottom: 136rpx;
 }
 /*每个页面公共css */
 /* 水平间距 */

@@ -2675,7 +2675,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
+Object.defineProperty(exports, "__esModule", { value: true });exports.getCourseCategoryList = exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
 
 __webpack_require__(/*! ../http/request */ 19),request = _require.request;
 
@@ -2697,7 +2697,12 @@ exports.getBannerList = getBannerList;var getLivingList = function getLivingList
 //直播回放课时分页列表
 exports.getLivingList = getLivingList;var getLivingBackList = function getLivingBackList() {
   return request("/wxmini/lesson/page/history", 'GET');
-};exports.getLivingBackList = getLivingBackList;
+};
+
+//课程类别列表
+exports.getLivingBackList = getLivingBackList;var getCourseCategoryList = function getCourseCategoryList() {
+  return request("/wxmini/course-category", 'GET');
+};exports.getCourseCategoryList = getCourseCategoryList;
 
 /***/ }),
 
