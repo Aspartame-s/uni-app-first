@@ -2675,7 +2675,7 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getCourseCategoryList = exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
+Object.defineProperty(exports, "__esModule", { value: true });exports.getCourseListWithCategoryId = exports.getCourseCategoryList = exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
 
 __webpack_require__(/*! ../http/request */ 19),request = _require.request;
 
@@ -2702,7 +2702,12 @@ exports.getLivingList = getLivingList;var getLivingBackList = function getLiving
 //课程类别列表
 exports.getLivingBackList = getLivingBackList;var getCourseCategoryList = function getCourseCategoryList() {
   return request("/wxmini/course-category", 'GET');
-};exports.getCourseCategoryList = getCourseCategoryList;
+};
+
+//课程分页列表(根据课程类别id获取课程)
+exports.getCourseCategoryList = getCourseCategoryList;var getCourseListWithCategoryId = function getCourseListWithCategoryId() {var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  return request("/wxmini/course/page?courseCategoryId=".concat(id), 'GET');
+};exports.getCourseListWithCategoryId = getCourseListWithCategoryId;
 
 /***/ }),
 

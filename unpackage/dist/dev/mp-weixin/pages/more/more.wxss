@@ -2,7 +2,7 @@
 /* 水平间距 */
 /* 水平间距 */
 .all {
-  padding-bottom: 136rpx;
+  padding-bottom: 126rpx;
 }
 .more-container {
   height: auto;

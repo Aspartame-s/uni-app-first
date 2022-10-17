@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container all">
 		<view class="banner-container">
 			<view class="base-title">
 				<view class="base-icon"></view>
@@ -19,16 +19,36 @@
 				<view class="base-icon"></view>
 				全部课程
 			</view>
+			<view class="categoryList">
+				<view class="courseClassfiy" v-for="(item, index) in courseCategoryList" :key="index"
+					@click="selectCategory(item.id)">
+					<image :src="item.imgUrl" class="courseImg"></image>
+					<view style="text-align: center;"
+						:class="['catetory-name', categoryId == item.id ? 'active-category-name' : '']">
+						{{item.courseCategoryName}}
+					</view>
+					<view class="active-ponit" v-show="categoryId == item.id"></view>
+				</view>
+			</view>
+			<div class="course-detail-container">
+				<col-list :hasMargin="true" v-for="(item, index) in courseList" :key="index" :lessonInfo="item" :hasVideo="false"></col-list>
+			</div>
 		</view>
+
 	</view>
 </template>
 
 <script>
+	import colList from '../../components/colList/colList.vue';
 	import {
 		getBannerList,
-		getCourseCategoryList
+		getCourseCategoryList,
+		getCourseListWithCategoryId
 	} from '../../utils/api/lesson.js';
 	export default {
+		components: {
+			colList
+		},
 		data() {
 			return {
 				bannerList: [],
@@ -37,7 +57,10 @@
 				interval: 2000,
 				duration: 500,
 				color: '#D8D8D8',
-				activeColor: '#EB9A15'
+				activeColor: '#EB9A15',
+				courseCategoryList: [],
+				categoryId: '1',
+				courseList: []
 			}
 		},
 		methods: {
@@ -47,20 +70,34 @@
 					this.bannerList = res.data
 				})
 			},
+			//获取课程类型
 			getCourseCategoryList() {
 				getCourseCategoryList().then(res => {
-					console.log(res)
+					// console.log(res)
 					this.courseCategoryList = res.data
+				})
+			},
+			//选择课程类型
+			selectCategory(id) {
+				this.categoryId = id
+				this.getCourseListWithCategoryId(this.categoryId == 1 ? '' : this.categoryId)
+			},
+			//课程分页列表(根据课程类别id获取课程)
+			getCourseListWithCategoryId(id) {
+				getCourseListWithCategoryId(id).then(res => {
+					// console.log(res)
+					this.courseList = res.data.records
 				})
 			}
 		},
 		mounted() {
 			this.getBannerList()
 			this.getCourseCategoryList()
+			this.getCourseListWithCategoryId()
 		},
-		onShow()  {
-						this.setTabBarIndex(1);
-				 }
+		onShow() {
+			this.setTabBarIndex(1);
+		}
 	}
 </script>
 
@@ -70,13 +107,15 @@
 		background-color: #F8F8F8;
 		display: flex;
 		flex-direction: column;
+
 		.base-title {
 			width: 100%;
 			height: 44rpx;
 			display: flex;
 			align-items: center;
 			margin-bottom: 38rpx;
-		
+			font-weight: 500;
+
 			.base-icon {
 				width: 10rpx;
 				height: 28rpx;
@@ -87,6 +126,7 @@
 				margin-right: 28rpx;
 			}
 		}
+
 		.banner-container {
 			width: 100%;
 			height: auto;
@@ -99,11 +139,11 @@
 				border-radius: 16rpx;
 				overflow: hidden;
 			}
-			
+
 			.wx-swiper-dot-active {
-					width: 40rpx;
-					border-radius: 10rpx;
-				}
+				width: 40rpx;
+				border-radius: 10rpx;
+			}
 
 			.swiperitem {
 				border-radius: 16rpx;
@@ -117,11 +157,73 @@
 				box-sizing: border-box;
 			}
 		}
+
 		.course-container {
 			width: 100%;
 			flex-grow: 1;
 			background-color: #fff;
 			padding: 28rpx 28rpx 40rpx;
+
+			::-webkit-scrollbar {
+				width: 0;
+				height: 0;
+				color: transparent;
+			}
+
+			.categoryList {
+				width: 100%;
+				// padding: 0 18rpx;
+				display: flex;
+				overflow-x: scroll;
+
+				.courseClassfiy {
+					width: 98rpx;
+					height: 180rpx;
+					flex-shrink: 0;
+					// background-color: pink;
+					margin-right: 44rpx;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+
+					&:last-child {
+						margin-right: 28rpx;
+					}
+
+					.courseImg {
+						width: 88rpx;
+						height: 88rpx;
+					}
+
+					.catetory-name {
+						height: 40rpx;
+						line-height: 40rpx;
+						color: #1E1E20;
+						font-size: 28rpx;
+						margin-bottom: 14rpx;
+					}
+
+					.active-category-name {
+						color: #F2B23A;
+					}
+
+					.active-ponit {
+						width: 10rpx;
+						height: 10rpx;
+						border-radius: 50%;
+						background-color: #F2B23A;
+					}
+				}
+			}
+			.course-detail-container {
+				width: 100%;
+				height: auto;
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+			}
 		}
+
+
 	}
 </style>

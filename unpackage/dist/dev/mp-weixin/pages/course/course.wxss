@@ -2,7 +2,7 @@
 /* 水平间距 */
 /* 水平间距 */
 .all {
-  padding-bottom: 136rpx;
+  padding-bottom: 126rpx;
 }
 .container {
   min-height: 100vh;
@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 38rpx;
+  font-weight: 500;
 }
 .container .base-title .base-icon {
   width: 10rpx;
@@ -57,5 +58,54 @@
   flex-grow: 1;
   background-color: #fff;
   padding: 28rpx 28rpx 40rpx;
+}
+.container .course-container ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.container .course-container .categoryList {
+  width: 100%;
+  display: flex;
+  overflow-x: scroll;
+}
+.container .course-container .categoryList .courseClassfiy {
+  width: 98rpx;
+  height: 180rpx;
+  flex-shrink: 0;
+  margin-right: 44rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .course-container .categoryList .courseClassfiy:last-child {
+  margin-right: 28rpx;
+}
+.container .course-container .categoryList .courseClassfiy .courseImg {
+  width: 88rpx;
+  height: 88rpx;
+}
+.container .course-container .categoryList .courseClassfiy .catetory-name {
+  height: 40rpx;
+  line-height: 40rpx;
+  color: #1E1E20;
+  font-size: 28rpx;
+  margin-bottom: 14rpx;
+}
+.container .course-container .categoryList .courseClassfiy .active-category-name {
+  color: #F2B23A;
+}
+.container .course-container .categoryList .courseClassfiy .active-ponit {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background-color: #F2B23A;
+}
+.container .course-container .course-detail-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 

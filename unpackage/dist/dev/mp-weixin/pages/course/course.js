@@ -158,39 +158,76 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18); //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = { data: function data() {return { bannerList: [], showDocts: true, autoplay: true, interval: 2000, duration: 500, color: '#D8D8D8', activeColor: '#EB9A15' };}, methods: { getBannerList: function getBannerList() {var _this = this;(0, _lesson.getBannerList)().then(function (res) {// console.log(res)
-        _this.bannerList = res.data;});}, getCourseCategoryList: function getCourseCategoryList() {var _this2 = this;(0, _lesson.getCourseCategoryList)().then(function (res) {console.log(res);_this2.courseCategoryList = res.data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colList = function colList() {Promise.all(/*! require.ensure | components/colList/colList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/colList/colList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 60));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+{
+  components: {
+    colList: colList },
+
+  data: function data() {
+    return {
+      bannerList: [],
+      showDocts: true,
+      autoplay: true,
+      interval: 2000,
+      duration: 500,
+      color: '#D8D8D8',
+      activeColor: '#EB9A15',
+      courseCategoryList: [],
+      categoryId: '1',
+      courseList: [] };
+
+  },
+  methods: {
+    getBannerList: function getBannerList() {var _this = this;
+      (0, _lesson.getBannerList)().then(function (res) {
+        // console.log(res)
+        _this.bannerList = res.data;
+      });
+    },
+    //获取课程类型
+    getCourseCategoryList: function getCourseCategoryList() {var _this2 = this;
+      (0, _lesson.getCourseCategoryList)().then(function (res) {
+        // console.log(res)
+        _this2.courseCategoryList = res.data;
+      });
+    },
+    //选择课程类型
+    selectCategory: function selectCategory(id) {
+      this.categoryId = id;
+      this.getCourseListWithCategoryId(this.categoryId == 1 ? '' : this.categoryId);
+    },
+    //课程分页列表(根据课程类别id获取课程)
+    getCourseListWithCategoryId: function getCourseListWithCategoryId(id) {var _this3 = this;
+      (0, _lesson.getCourseListWithCategoryId)(id).then(function (res) {
+        // console.log(res)
+        _this3.courseList = res.data.records;
       });
     } },
 
   mounted: function mounted() {
     this.getBannerList();
     this.getCourseCategoryList();
+    this.getCourseListWithCategoryId();
   },
   onShow: function onShow() {
     this.setTabBarIndex(1);

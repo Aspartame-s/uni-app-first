@@ -26,3 +26,8 @@ export const getLivingBackList = () => {
 export const getCourseCategoryList = () => {
 	return request(`/wxmini/course-category`, 'GET')
 }
+
+//课程分页列表(根据课程类别id获取课程)
+export const getCourseListWithCategoryId = (id = '') => {
+	return request(`/wxmini/course/page?courseCategoryId=${id}`, 'GET')
+}

@@ -1,22 +1,22 @@
 <template>
-	<view class="list-col-container">
+	<view class="list-col-container" :style="{'marginBottom': hasMargin ? '40rpx' : '0'}">
 		<view class="container-top" @click="play">
-			<view class="start-time">
+			<view class="start-time" v-if="hasVideo">
 				{{lessonInfo.startTime.substring(11, 16)}}
 			</view>
 			<view class="video-container">
-				<image :src="lessonInfo.lessonCover" class="bg-img"></image>
+				<image :src="lessonInfo.lessonCover || lessonInfo.courseCover" class="bg-img"></image>
 				<video :src="lessonInfo.lessonUrl" :show-center-play-btn="false" id="myVideo"
-					@fullscreenchange="screenchange"></video>
-				<image :src="imgbaseUrl + '/course/bofang.png'" class="bofangImg"></image>
+					@fullscreenchange="screenchange" v-if="hasVideo"></video>
+				<image :src="imgbaseUrl + '/course/bofang.png'" class="bofangImg" v-if="hasVideo"></image>
 			</view>
 		</view>
 		<view class="container-bottom">
 			<view class="top">
-				{{lessonInfo.lessonName}}
+				{{lessonInfo.lessonName || lessonInfo.courseName}}
 			</view>
 			<view class="middle">
-				{{lessonInfo.lessonDesc}}
+				{{lessonInfo.lessonDesc || lessonInfo.courseName}}
 			</view>
 			<view class="bottom">
 				<view class="teacher-info">
@@ -46,6 +46,14 @@
 			lessonInfo: {
 				type: Object,
 				default: {}
+			},
+			hasMargin: {
+				type: Boolean,
+				default: false
+			},
+			hasVideo: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -120,7 +128,7 @@
 		/* background-color: pink; */
 		box-shadow: 0 8rpx 8rpx 2rpx rgba(0, 0, 0, 0.0700);
 		border-radius: 16rpx; 
-		margin-right: 12rpx;
+		margin: 0 6rpx;
 	}
 
 	.container-top {
@@ -133,7 +141,8 @@
 
 	.start-time {
 		z-index: 99;
-		width: 80rpx;
+		width: auto;
+		padding: 0 14rpx;
 		height: 40rpx;
 		border-radius: 4rpx;
 		background-color: #FD9770;
@@ -177,7 +186,7 @@
 		width: 320rpx;
 		height: auto;
 		position: relative;
-		padding: 16rpx 12rpx 24rpx;
+		padding: 16rpx 12rpx 0rpx;
 	}
 
 	.top {
@@ -194,7 +203,7 @@
 	.middle {
 		width: 100%;
 		height: 75rpx;
-		margin-bottom: 15rpx;
+		margin-bottom: 25rpx;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
