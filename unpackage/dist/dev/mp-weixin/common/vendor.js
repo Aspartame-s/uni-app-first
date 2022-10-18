@@ -2839,11 +2839,15 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var imgbaseUrl = "https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view";var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var imgbaseUrl = "https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view";
+
+var paddingBottom = 141 + uni.getSystemInfoSync().safeAreaInsets.bottom * 2 + 'rpx';var _default =
 
 
 {
-  imgbaseUrl: imgbaseUrl };exports.default = _default;
+  imgbaseUrl: imgbaseUrl,
+  paddingBottom: paddingBottom };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
@@ -9395,18 +9399,18 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 72:
+/***/ 87:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 73);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 88);
 
 /***/ }),
 
-/***/ 73:
+/***/ 88:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9437,7 +9441,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 74);
+module.exports = __webpack_require__(/*! ./runtime */ 89);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9454,7 +9458,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 74:
+/***/ 89:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

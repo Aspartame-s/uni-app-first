@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -174,17 +174,23 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colList = function colList() {Promise.all(/*! require.ensure | components/colList/colList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/colList/colList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 60));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
 
+var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);
+
+
+
+
+var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 68));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
     colList: colList },
 
   data: function data() {
     return {
+      paddingBottom: _global.default.paddingBottom,
       bannerList: [],
       showDocts: true,
       autoplay: true,
@@ -222,6 +228,13 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colLi
         // console.log(res)
         _this3.courseList = res.data.records;
       });
+    },
+    //进入课程详情
+    enterCourseDetail: function enterCourseDetail() {
+      console.log('123');
+      uni.navigateTo({
+        url: '/pages/courseDetail/courseDetail' });
+
     } },
 
   mounted: function mounted() {
@@ -232,6 +245,7 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colLi
   onShow: function onShow() {
     this.setTabBarIndex(1);
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

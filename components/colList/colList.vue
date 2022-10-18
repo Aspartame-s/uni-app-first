@@ -66,7 +66,7 @@
 			isStart() {
 				let isStart
 				//直播开始时间
-				var startTime = new Date(this.lessonInfo.startTime.replace(/-/g, '/')).getTime();
+				var startTime = new Date(this.lessonInfo.startTime && this.lessonInfo.startTime.replace(/-/g, '/')).getTime();
 				//当前时间
 				var cuttentTime = new Date().getTime();
 				//如果开始时间大于当前时间 未开始

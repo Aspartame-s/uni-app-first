@@ -1,5 +1,5 @@
 <template>
-	<view class="container all">
+	<view class="container" :style="{'paddingBottom': paddingBottom}">
 		<view class="banner-container">
 			<view class="base-title">
 				<view class="base-icon"></view>
@@ -13,6 +13,9 @@
 					</swiper-item>
 				</swiper>
 			</view>
+		</view>
+		<view class="middle-link">
+			
 		</view>
 		<view class="course-container">
 			<view class="base-title">
@@ -31,7 +34,8 @@
 				</view>
 			</view>
 			<div class="course-detail-container">
-				<col-list :hasMargin="true" v-for="(item, index) in courseList" :key="index" :lessonInfo="item" :hasVideo="false"></col-list>
+				<col-list :hasMargin="true" v-for="(item, index) in courseList" :key="index" :lessonInfo="item"
+					:hasVideo="false" @click.native="enterCourseDetail"></col-list>
 			</div>
 		</view>
 
@@ -45,12 +49,14 @@
 		getCourseCategoryList,
 		getCourseListWithCategoryId
 	} from '../../utils/api/lesson.js';
+	import global from '../../common/global.js';
 	export default {
 		components: {
 			colList
 		},
 		data() {
 			return {
+				paddingBottom: global.paddingBottom,
 				bannerList: [],
 				showDocts: true,
 				autoplay: true,
@@ -88,6 +94,13 @@
 					// console.log(res)
 					this.courseList = res.data.records
 				})
+			},
+			//进入课程详情
+			enterCourseDetail() {
+				console.log('123')
+				uni.navigateTo({
+					url: '/pages/courseDetail/courseDetail'
+				})
 			}
 		},
 		mounted() {
@@ -104,7 +117,7 @@
 <style lang="scss">
 	.container {
 		min-height: 100vh;
-		background-color: #F8F8F8;
+		background-color: #fff;
 		display: flex;
 		flex-direction: column;
 
@@ -158,11 +171,17 @@
 			}
 		}
 
+		.middle-link {
+			width: 100%;
+			height: 16rpx;
+			background-color: #F8F8F8;
+		}
+
 		.course-container {
 			width: 100%;
 			flex-grow: 1;
 			background-color: #fff;
-			padding: 28rpx 28rpx 40rpx;
+			padding: 28rpx 28rpx 20rpx;
 
 			::-webkit-scrollbar {
 				width: 0;
@@ -215,6 +234,7 @@
 					}
 				}
 			}
+
 			.course-detail-container {
 				width: 100%;
 				height: auto;

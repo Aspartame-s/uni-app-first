@@ -1,9 +1,6 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.all {
-  padding-bottom: 126rpx;
-}
 .more-container {
   height: auto;
   width: 100%;

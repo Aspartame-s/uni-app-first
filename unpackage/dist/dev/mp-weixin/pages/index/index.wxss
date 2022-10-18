@@ -1,9 +1,6 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.all {
-  padding-bottom: 126rpx;
-}
 .container {
   min-height: 100vh;
   background-color: #FAE9CD;
@@ -11,7 +8,7 @@
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: left 0 top 30rpx;
-  padding: 141rpx 28rpx 136rpx;
+  padding: 141rpx 28rpx 236rpx;
   font-size: 14px;
   line-height: 24px;
 }

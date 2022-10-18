@@ -1,5 +1,5 @@
 <template>
-	<view class="container all">
+	<view class="container" :style="{'paddingBottom': paddingBottom}">
 		<image src="/static/img/suezhiboLOGO.png" class="logo"></image>
 		<view class="kechengbiao">
 			<image :src="imgbaseUrl + '/img/kechengbiao.png'" mode="" class="kechengbiao-img"></image>
@@ -78,6 +78,7 @@
 		},
 		data() {
 			return {
+				paddingBottom: global.paddingBottom,
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
 				imgbaseUrl: global.imgbaseUrl,
 				selected: ['2022-10-08', '2022-10-09'],
@@ -161,13 +162,14 @@
 				})
 			},
 			seeMore() {
-				console.log(123)
+				// console.log(123)
 				uni.navigateTo({
 					url: `/pages/more/more?flag=${this.path}&headTitle=${this.path == '/living' ? '正在直播' : '直播回放'}`
 				})
 			}
 		},
 		mounted() {
+			console.log(global.paddingBottom)
 			// wx.hideShareMenu({
 			//   menus: ['shareAppMessage', 'shareTimeline']
 			// }),
@@ -204,7 +206,7 @@
 		background-size: 100%;
 		background-repeat: no-repeat;
 		background-position: left 0 top 30rpx;
-		padding: 141rpx 28rpx 136rpx; 
+		padding: 141rpx 28rpx 236rpx;
 		font-size: 14px;
 		line-height: 24px;
 	}
