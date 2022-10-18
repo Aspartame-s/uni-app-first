@@ -4,6 +4,7 @@
   "usingComponents": {
     "row-list": "/components/rowList/rowList",
     "col-list": "/components/colList/colList",
-    "attend-calendar": "/components/attend-calendar/attend-calendar"
+    "attend-calendar": "/components/attend-calendar/attend-calendar",
+    "default-component": "/components/defaultComponent/defaultComponent"
   }
 }

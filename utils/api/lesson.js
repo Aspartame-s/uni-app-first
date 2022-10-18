@@ -8,8 +8,8 @@ export const getLessonList = (data = '') => {
 }
 
 //banner
-export const getBannerList = () => {
-	return request(`/wxmini/banner`, 'GET')
+export const getBannerList = (route) => {
+	return request(`/wxmini/banner?bannerRoute=${route}`, 'GET')
 }
 
 //正在直播的课时分页列表

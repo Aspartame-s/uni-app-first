@@ -2685,8 +2685,8 @@ var getLessonList = function getLessonList() {var data = arguments.length > 0 &&
 };
 
 //banner
-exports.getLessonList = getLessonList;var getBannerList = function getBannerList() {
-  return request("/wxmini/banner", 'GET');
+exports.getLessonList = getLessonList;var getBannerList = function getBannerList(route) {
+  return request("/wxmini/banner?bannerRoute=".concat(route), 'GET');
 };
 
 //正在直播的课时分页列表

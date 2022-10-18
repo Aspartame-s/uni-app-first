@@ -17,6 +17,7 @@
 				:lessonInfo="item" :hasMargin="false" :isShowTime="false"></row-list>
 			<col-list v-if="lessonDataMuch" v-for="(item, index) in lessonDataMuch" :key="index" :lessonInfo="item">
 			</col-list>
+			<default-component style="width: 100%;" v-if="!lessonDataOnlyOne.length && !lessonDataMuch.length"></default-component>
 		</view>
 		<view style="margin-bottom: 16rpx;">
 			<swiper duration="500" class="swiper" :autoplay="autoplay" :interval="interval" :duration="duration">
@@ -41,10 +42,12 @@
 			</view>
 			<view class="container-body">
 				<view v-if="path == '/living'">
-					<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item" :isLiving="true"></row-list>
+					<default-component v-if="!livingList.length" style="width: 100%;"></default-component>
+					<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item" :isLiving="true" v-else></row-list>
 				</view>
 				<view v-else>
-					<row-list v-for="(item, index) in livingBackList" :key="index" :lessonInfo="item"></row-list>
+					<default-component v-if="!livingBackList.length" style="width: 100%;"></default-component>
+					<row-list v-for="(item, index) in livingBackList" :key="index" :lessonInfo="item" v-else></row-list>
 				</view>
 			</view>
 		</view>
@@ -54,6 +57,7 @@
 <script>
 	import rowList from '../../components/rowList/rowList.vue';
 	import colList from '../../components/colList/colList.vue';
+	import defaultComponent from '../../components/defaultComponent/defaultComponent.vue'
 	import attendCalendar from '../../components/attend-calendar/attend-calendar.vue';
 	const {
 		userLogin
@@ -69,7 +73,8 @@
 		components: {
 			rowList,
 			colList,
-			attendCalendar
+			attendCalendar,
+			defaultComponent
 		},
 		data() {
 			return {
@@ -126,8 +131,8 @@
 					}
 				})
 			},
-			getBannerList() {
-				getBannerList().then(res => {
+			getBannerList(route) {
+				getBannerList(route).then(res => {
 					// console.log(res)
 					this.bannerList = res.data
 				})
@@ -176,7 +181,7 @@
 						})
 					}
 				}),
-				this.getBannerList()
+				this.getBannerList('index')
 				this.getLivingList()
 				this.getLivingBackList()
 		},

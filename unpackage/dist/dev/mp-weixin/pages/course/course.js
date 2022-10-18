@@ -198,8 +198,8 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colLi
 
   },
   methods: {
-    getBannerList: function getBannerList() {var _this = this;
-      (0, _lesson.getBannerList)().then(function (res) {
+    getBannerList: function getBannerList(route) {var _this = this;
+      (0, _lesson.getBannerList)(route).then(function (res) {
         // console.log(res)
         _this.bannerList = res.data;
       });
@@ -225,7 +225,7 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);var colLi
     } },
 
   mounted: function mounted() {
-    this.getBannerList();
+    this.getBannerList('course');
     this.getCourseCategoryList();
     this.getCourseListWithCategoryId();
   },

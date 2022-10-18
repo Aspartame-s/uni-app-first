@@ -64,8 +64,8 @@
 			}
 		},
 		methods: {
-			getBannerList() {
-				getBannerList().then(res => {
+			getBannerList(route) {
+				getBannerList(route).then(res => {
 					// console.log(res)
 					this.bannerList = res.data
 				})
@@ -91,7 +91,7 @@
 			}
 		},
 		mounted() {
-			this.getBannerList()
+			this.getBannerList('course')
 			this.getCourseCategoryList()
 			this.getCourseListWithCategoryId()
 		},
