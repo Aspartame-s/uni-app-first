@@ -35,11 +35,26 @@
 .container .course-filter-container .video-container {
   width: 694rpx;
   height: 396rpx;
+  border-radius: 16rpx;
   position: absolute;
   left: 28rpx;
   bottom: -16rpx;
-  background-color: pink;
   z-index: 20;
+  overflow: hidden;
+}
+.container .course-filter-container .video-container .course-cover-img {
+  width: 100%;
+  height: 100%;
+}
+.container .course-filter-container .video-container .bofangImg {
+  width: 108rpx;
+  height: 108rpx;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 100;
 }
 .container .main-container {
   width: 100%;
@@ -49,6 +64,74 @@
   position: relative;
   top: -140rpx;
   z-index: 15;
-  padding: 170rpx 22rpx 40rpx;
+  padding: 170rpx 0 0;
+}
+.container .main-container .title {
+  width: 100%;
+  text-align: center;
+  color: #1E1E20;
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+.container .main-container .desc {
+  width: 100%;
+  height: auto;
+  padding: 0 22rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: #666;
+  font-size: 28rpx;
+  margin-bottom: 36rpx;
+}
+.container .main-container .course-teacher-desc-container {
+  width: 100%;
+  height: auto;
+  padding: 0 28rpx;
+}
+.container .main-container .course-teacher-desc-container .tab-container {
+  width: 290rpx;
+  height: 71rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 34rpx;
+}
+.container .main-container .course-teacher-desc-container .tab-container .tab-item {
+  width: auto;
+  height: 71rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .main-container .course-teacher-desc-container .tab-container .tab-item .tabTitle {
+  width: auto;
+  height: 44rpx;
+  line-height: 44rpx;
+  color: #333;
+  font-size: 28rpx;
+}
+.container .main-container .course-teacher-desc-container .tab-container .tab-item .active {
+  color: #EB9A15;
+  font-size: 32rpx;
+}
+.container .main-container .course-teacher-desc-container .tab-container .tab-item .tabActiveLine {
+  width: 37rpx;
+  height: 7rpx;
+}
+.container .main-container .course-teacher-desc-container .container-body {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.container .main-container .course-teacher-desc-container .teacher-intruction {
+  width: 100%;
+  height: 852rpx;
 }
 

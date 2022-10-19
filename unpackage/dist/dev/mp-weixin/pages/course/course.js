@@ -230,10 +230,10 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
       });
     },
     //进入课程详情
-    enterCourseDetail: function enterCourseDetail() {
-      console.log('123');
+    enterCourseDetail: function enterCourseDetail(courseId) {
+      // console.log('123')
       uni.navigateTo({
-        url: '/pages/courseDetail/courseDetail' });
+        url: "/pages/courseDetail/courseDetail?courseId=".concat(courseId) });
 
     } },
 

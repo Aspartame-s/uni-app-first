@@ -1,7 +1,7 @@
 <template>
 	<view class="list-col-container" :style="{'marginBottom': hasMargin ? '40rpx' : '0'}">
 		<view class="container-top" @click="play">
-			<view class="start-time" v-if="hasVideo">
+			<view class="start-time" v-if="hasLeftTopTip">
 				{{lessonInfo.startTime.substring(11, 16)}}
 			</view>
 			<view class="video-container">
@@ -52,6 +52,10 @@
 				default: false
 			},
 			hasVideo: {
+				type: Boolean,
+				default: true
+			},
+			hasLeftTopTip: {
 				type: Boolean,
 				default: true
 			}

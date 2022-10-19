@@ -81,7 +81,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.hasVideo ? _vm.lessonInfo.startTime.substring(11, 16) : null
+  var g0 = _vm.hasLeftTopTip ? _vm.lessonInfo.startTime.substring(11, 16) : null
   var m0 = false ? undefined : null
   var m1 = false ? undefined : null
   _vm.$mp.data = Object.assign(
@@ -208,17 +208,21 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
 //
 //
 //
-var _default = { name: 'col-list', props: { lessonInfo: { type: Object, default: {} }, hasMargin: { type: Boolean, default: false }, hasVideo: { type: Boolean, default: true } }, data: function data() {return { imgbaseUrl: _global.default.imgbaseUrl };}, computed: { //判断课程是否开始
+var _default = { name: 'col-list', props: { lessonInfo: { type: Object, default: {} }, hasMargin: { type: Boolean, default: false }, hasVideo: { type: Boolean, default: true }, hasLeftTopTip: { type: Boolean, default: true } }, data: function data() {return { imgbaseUrl: _global.default.imgbaseUrl };}, computed: { //判断课程是否开始
     isStart: function isStart() {var isStart; //直播开始时间
       var startTime = new Date(this.lessonInfo.startTime && this.lessonInfo.startTime.replace(/-/g, '/')).getTime(); //当前时间
       var cuttentTime = new Date().getTime(); //如果开始时间大于当前时间 未开始
       if (startTime > cuttentTime) {isStart = false;} else {//否则 可以跳转视频号或者播放视频
         isStart = true;}return isStart;}, //判断是跳转视频号还是播放视频
-    isPlayOrSkip: function isPlayOrSkip() {var flag;if (this.lessonInfo.lessonUrl) {//如果lessonInfo.lessonUrl不为空 播放视频 flag = true
+    isPlayOrSkip: function isPlayOrSkip() {var flag;if (this.lessonInfo.lessonUrl) {
+        //如果lessonInfo.lessonUrl不为空 播放视频 flag = true
         flag = true; //播放视频
-      } else {//如果lessonInfo.lessonUrl不为空 跳转视频号 flag = false
+      } else {
+        //如果lessonInfo.lessonUrl不为空 跳转视频号 flag = false
         flag = false; //跳转视频号
-      }return flag;} },
+      }
+      return flag;
+    } },
 
   methods: {
     test: function test() {

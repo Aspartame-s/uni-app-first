@@ -132,50 +132,160 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 87));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);
+
+
+
+
+var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 68));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
+  components: {
+    colList: colList },
+
   data: function data() {
     return {
+      imgbaseUrl: _global.default.imgbaseUrl,
+      noTabbarPaddingBottom: _global.default.noTabbarPaddingBottom,
       iStatusBarHeight: null,
-      bgUrl: 'https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/course/yyj-td-c1.jpg' };
+      tabList: [{
+        id: 1,
+        name: "课时介绍",
+        iconUrl: "https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view/icon/huxian.png",
+        active: 1,
+        path: "course" },
+
+      {
+        id: 2,
+        name: "老师介绍",
+        iconUrl: "https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view/icon/huxian.png",
+        active: 0,
+        path: "teacher" }],
+
+
+      active: 1,
+      courseId: null,
+      lessonList: [],
+      courseDetail: {},
+      teacherId: '',
+      teacherIntroduction: '',
+      tabFlag: 'course' };
 
   },
+  methods: {
+    selectTab: function selectTab(id, path) {
+      this.tabFlag = path;
+      // console.log(id)
+      // this.active = id
+      this.tabList.forEach(function (item) {
+        if (item.id == id) {
+          item.active = 1;
+        } else {
+          item.active = 0;
+        }
+      });
+    },
+    //根据课程id获取课时列表
+    getLessonList: function getLessonList(date, id) {var _this = this;
+      (0, _lesson.getLessonList)(date, id).then(function (res) {
+        // console.log(res)
+        _this.lessonList = res.data;
+      });
+    },
+    //根据id查看课程详情(获取课程详情页的上半部分以及老师id)
+    getCourseDetailWithCourseId: function getCourseDetailWithCourseId(id) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  (0, _lesson.getCourseDetailWithCourseId)(id).then(function (res) {
+                    _this2.courseDetail = res.data;
+                    _this2.teacherId = res.data.teacherId;
+                  }));case 2:
+                _this2.getTeacherDetailWithId(_this2.teacherId);case 3:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    //根据id查看老师详情
+    getTeacherDetailWithId: function getTeacherDetailWithId(id) {var _this3 = this;
+      (0, _lesson.getTeacherDetailWithId)(id).then(function (res) {
+        // console.log(res)
+        _this3.teacherIntroduction = res.data.teacherIntroduction;
+      });
+    },
+    //video屏幕变化监测
+    screenchange: function screenchange(e) {
+      var videoplay = uni.createVideoContext('myVideo', this);
+      if (e.detail.fullScreen) {
+        videoplay.play();
+      } else {
+        // let data = {
+        //   "courseId": this.properties.listdata.courseId,
+        //   "lessonId": this.properties.listdata.lessonId,
+        //   // "liveId": this.properties.liveId
+        // }
+        // addUserwatch('userwatch', data).then(res => {
+        //   // console.log('添加一次直播', res);
+        // })
+        videoplay.pause();
+      }
+    },
+    //播放按钮
+    play: function play() {
+      this.videoContext = uni.createVideoContext('myVideo', this); // 	创建 video 上下文 VideoContext 对象。
+      this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+        direction: 90 // 屏幕逆时针90度
+      });
+    },
+    back: function back() {
+      uni.navigateBack();
+    } },
+
   onLoad: function onLoad(option) {
+    this.courseId = option.courseId;
     this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+    this.getLessonList('', this.courseId);
+    this.getCourseDetailWithCourseId(this.courseId);
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -35,7 +35,7 @@
 			</view>
 			<div class="course-detail-container">
 				<col-list :hasMargin="true" v-for="(item, index) in courseList" :key="index" :lessonInfo="item"
-					:hasVideo="false" @click.native="enterCourseDetail"></col-list>
+					:hasVideo="false" :hasLeftTopTip="false" @click.native="enterCourseDetail(item.id)"></col-list>
 			</div>
 		</view>
 
@@ -96,10 +96,10 @@
 				})
 			},
 			//进入课程详情
-			enterCourseDetail() {
-				console.log('123')
+			enterCourseDetail(courseId) {
+				// console.log('123')
 				uni.navigateTo({
-					url: '/pages/courseDetail/courseDetail'
+					url: `/pages/courseDetail/courseDetail?courseId=${courseId}`
 				})
 			}
 		},

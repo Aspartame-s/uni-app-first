@@ -308,7 +308,6 @@
 		width: 392rpx;
 		height: 77rpx;
 		@include between;
-		background-color: #fff;
 		.tab-item {
 			width: 172rpx;
 			height: 77rpx;

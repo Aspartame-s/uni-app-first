@@ -2675,13 +2675,13 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getCourseListWithCategoryId = exports.getCourseCategoryList = exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
+Object.defineProperty(exports, "__esModule", { value: true });exports.getTeacherDetailWithId = exports.getCourseDetailWithCourseId = exports.getCourseListWithCategoryId = exports.getCourseCategoryList = exports.getLivingBackList = exports.getLivingList = exports.getBannerList = exports.getLessonList = void 0;var _require =
 
 __webpack_require__(/*! ../http/request */ 19),request = _require.request;
 
-//课程分页列表
-var getLessonList = function getLessonList() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  return request("/wxmini/lesson/page?startDate=".concat(data), 'GET');
+//课时分页列表
+var getLessonList = function getLessonList() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';var courseId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  return request("/wxmini/lesson/page?startDate=".concat(data, "&courseId=").concat(courseId), 'GET');
 };
 
 //banner
@@ -2707,7 +2707,17 @@ exports.getLivingBackList = getLivingBackList;var getCourseCategoryList = functi
 //课程分页列表(根据课程类别id获取课程)
 exports.getCourseCategoryList = getCourseCategoryList;var getCourseListWithCategoryId = function getCourseListWithCategoryId() {var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   return request("/wxmini/course/page?courseCategoryId=".concat(id), 'GET');
-};exports.getCourseListWithCategoryId = getCourseListWithCategoryId;
+};
+
+//根据id查看课程详情(获取课程详情页的上半部分以及老师id)
+exports.getCourseListWithCategoryId = getCourseListWithCategoryId;var getCourseDetailWithCourseId = function getCourseDetailWithCourseId() {var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  return request("/wxmini/course/".concat(id), 'GET');
+};
+
+//根据id查看老师详情
+exports.getCourseDetailWithCourseId = getCourseDetailWithCourseId;var getTeacherDetailWithId = function getTeacherDetailWithId() {var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  return request("/wxmini/teacher/".concat(id), 'GET');
+};exports.getTeacherDetailWithId = getTeacherDetailWithId;
 
 /***/ }),
 
@@ -2841,12 +2851,14 @@ module.exports = {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var imgbaseUrl = "https://sezb-1301658904.cos.ap-nanjing.myqcloud.com/view";
 
-var paddingBottom = 141 + uni.getSystemInfoSync().safeAreaInsets.bottom * 2 + 'rpx';var _default =
+var paddingBottom = 141 + uni.getSystemInfoSync().safeAreaInsets.bottom * 2 + 'rpx';
+var noTabbarPaddingBottom = 15 + uni.getSystemInfoSync().safeAreaInsets.bottom * 2 + 'rpx';var _default =
 
 
 {
   imgbaseUrl: imgbaseUrl,
-  paddingBottom: paddingBottom };exports.default = _default;
+  paddingBottom: paddingBottom,
+  noTabbarPaddingBottom: noTabbarPaddingBottom };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
