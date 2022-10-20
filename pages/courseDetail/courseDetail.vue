@@ -20,6 +20,26 @@
 				以直播课的形式进行呈现，课程分为四节课，每节课课时
 				40分钟左右，主要解决学生的坐姿、握笔以及控笔的问题dasdsad
 			</view>
+			
+			<view class="handle-container">
+				<view class="view-box">
+					<image src="../../static/img/viewCount@2x.png" mode="" class="view-icon"></image>
+					20
+				</view>
+				<view class="handle-box">
+					<view class="collect-box">
+						收藏
+						<i class="iconfont icon-shoucang"></i>
+					</view>
+					<view class="share-box">
+						分享
+						<i class="iconfont icon-fenxiang"></i>
+					</view>
+				</view>
+			</view>
+			<view class="middle-link">
+				
+			</view>
 			<view class="course-teacher-desc-container">
 				<view class="tab-container">
 					<view class="tab-item" v-for="(item, index) in tabList" :key="index"
@@ -250,7 +270,50 @@
 				-webkit-box-orient: vertical;
 				color: #666;
 				font-size: 28rpx;
-				margin-bottom: 36rpx;
+				margin-bottom: 24rpx;
+			}
+			.handle-container {
+				width: 100%;
+				height: 34rpx;
+				padding: 0 28rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 24rpx;
+				color: #666;
+				.view-box {
+					height: 34rpx;
+					@include center;
+					.view-icon {
+						width: 22rpx;
+						height: 13rpx;
+						margin-right: 6rpx;
+					}
+				}
+				.handle-box {
+					width: 210rpx;
+					height: 34rpx;
+					@include between;
+					i {
+						margin-left: 12rpx;
+						font-size: 28rpx;
+					}
+					.icon-shoucang {
+						color: #edc312;
+					}
+					.collect-box {
+						@include center;
+					}
+					.share-box {
+						@include center;
+					}
+				}
+			}
+			.middle-link {
+				width: 100%;
+				height: 16rpx;
+				background-color: #F8F8F8;
+				margin: 40rpx 0;
 			}
 
 			.course-teacher-desc-container {

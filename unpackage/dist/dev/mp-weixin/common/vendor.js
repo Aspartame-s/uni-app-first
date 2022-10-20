@@ -2667,6 +2667,30 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 116:
+/*!*******************************************************!*\
+  !*** /Users/chengjiahui/uniapp/苏E/utils/api/hobby.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.saveWxUserHobby = exports.getHobbyList = void 0;var _require =
+
+__webpack_require__(/*! ../http/request */ 19),request = _require.request;
+
+//爱好列表
+var getHobbyList = function getHobbyList() {
+  return request("/wxmini/hobby", 'GET');
+};
+
+//批量保存微信用户爱好
+exports.getHobbyList = getHobbyList;var saveWxUserHobby = function saveWxUserHobby(data) {
+  return request("/wxmini/wxuser-hobby/batch", 'POST', data);
+};exports.saveWxUserHobby = saveWxUserHobby;
+
+/***/ }),
+
 /***/ 18:
 /*!********************************************************!*\
   !*** /Users/chengjiahui/uniapp/苏E/utils/api/lesson.js ***!
@@ -9411,18 +9435,18 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 87:
+/***/ 63:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 88);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 64);
 
 /***/ }),
 
-/***/ 88:
+/***/ 64:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9453,7 +9477,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 89);
+module.exports = __webpack_require__(/*! ./runtime */ 65);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9470,7 +9494,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 89:
+/***/ 65:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/

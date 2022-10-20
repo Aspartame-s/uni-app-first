@@ -183,7 +183,7 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);
 
 
 
-var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 68));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
     colList: colList },

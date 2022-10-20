@@ -10,7 +10,6 @@
 /* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ 5);
 
 
-
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 4));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 6));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;} // @ts-ignore
 wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;
@@ -23,6 +22,11 @@ _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread({},
 _App.default));
 
+
+
+_vue.default.prototype.$onLaunched = new Promise(function (resolve) {
+  _vue.default.prototype.$isResolve = resolve;
+});
 
 _vue.default.mixin({
   methods: {
@@ -108,12 +112,13 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 63));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _require =
+
+
+__webpack_require__(/*! ./utils/api/login */ 22),userLogin = _require.userLogin;var _default =
 {
   data: function data() {
-    return {
-      padding: '--paddingBottom: 268rpx' };
-
+    return {};
   },
   computed: {
     // padding() {
@@ -124,12 +129,38 @@ __webpack_require__.r(__webpack_exports__);
     // 	return padding
     // }
   },
-  onLaunch: function onLaunch() {
+  onLaunch: function onLaunch() {var _this = this;
     console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！');
     console.log('App Launch');
+    // uni.login({
+    // 	success: (res) => {
+    // 		console.log(res)
+    // 	}
+    // })
+    uni.login({
+      provider: 'weixin',
+      success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                  console.log(res);_context.next = 3;return (
+                    userLogin('/wxmini/wxuser/login', {
+                      "jscode": res.code }).
+                    then(function (rr) {
+                      uni.setStorageSync('wxUserId', rr.data.wxuser.id);
+                      uni.setStorageSync('sessionKey', rr.data.sessionKey);
+                      if (rr.data.hobbies.length != 0) {
+                        uni.switchTab({
+                          url: '/pages/index/index' });
+
+                      } else {
+                        uni.reLaunch({
+                          url: '/pages/hobby/hobby' });
+
+                      }
+                      _this.$isResolve();
+                    }));case 3:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}() });
+
+
   },
   onShow: function onShow() {
-    console.log(uni.getSystemInfoSync());
     console.log('App Show');
   },
   onHide: function onHide() {

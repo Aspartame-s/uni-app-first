@@ -5,7 +5,8 @@
     "pages/playground/playground",
     "pages/mine/mine",
     "pages/more/more",
-    "pages/courseDetail/courseDetail"
+    "pages/courseDetail/courseDetail",
+    "pages/hobby/hobby"
   ],
   "subPackages": [],
   "window": {

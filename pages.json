@@ -3,8 +3,9 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "苏e学堂",
-				"navigationBarBackgroundColor": "#eee"
+				// "navigationBarTitleText": "苏e学堂",
+				// "navigationBarBackgroundColor": "#eee"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -39,7 +40,14 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/hobby/hobby",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

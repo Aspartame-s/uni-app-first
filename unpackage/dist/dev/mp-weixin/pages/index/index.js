@@ -202,13 +202,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 18);
 
 
 
 
 
-var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 61));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 68));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var attendCalendar = function attendCalendar() {Promise.all(/*! require.ensure | components/attend-calendar/attend-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/attend-calendar/attend-calendar")]).then((function () {return resolve(__webpack_require__(/*! ../../components/attend-calendar/attend-calendar.vue */ 82));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _require = __webpack_require__(/*! ../../utils/api/login */ 22),userLogin = _require.userLogin;var _default =
+var _hobby = __webpack_require__(/*! ../../utils/api/hobby.js */ 116);
+
+
+
+var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 68));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var colList = function colList() {__webpack_require__.e(/*! require.ensure | components/colList/colList */ "components/colList/colList").then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 75));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 82));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var attendCalendar = function attendCalendar() {Promise.all(/*! require.ensure | components/attend-calendar/attend-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/attend-calendar/attend-calendar")]).then((function () {return resolve(__webpack_require__(/*! ../../components/attend-calendar/attend-calendar.vue */ 89));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _require = __webpack_require__(/*! ../../utils/api/login */ 22),userLogin = _require.userLogin;var _default =
 {
   components: {
     rowList: rowList,
@@ -249,10 +262,16 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
 
       path: "/living",
       livingList: [],
-      livingBackList: [] };
+      livingBackList: [],
+      iStatusBarHeight: null };
 
   },
   methods: {
+    testNavi: function testNavi() {
+      uni.navigateTo({
+        url: '/pages/hobby/hobby' });
+
+    },
     selectDate: function selectDate(date) {
       console.log(date);
       this.getLessonList(date);
@@ -308,21 +327,23 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
 
     } },
 
+  onLoad: function onLoad() {
+    this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+  },
   mounted: function mounted() {
-    console.log(_global.default.paddingBottom);
     // wx.hideShareMenu({
     //   menus: ['shareAppMessage', 'shareTimeline']
     // }),
-    uni.login({
-      provider: 'weixin',
-      success: function success(res) {
-        userLogin('/wxmini/wxuser/login', {
-          "jscode": res.code }).
-        then(function (rr) {
-          console.log(rr);
-        });
-      } }),
-
+    // uni.login({
+    // 		provider: 'weixin',
+    // 		success: res => {
+    // 			userLogin('/wxmini/wxuser/login', {
+    // 				"jscode": res.code
+    // 			}).then(rr => {
+    // 				console.log(rr)
+    // 			})
+    // 		}
+    // 	}),
     this.getBannerList('index');
     this.getLivingList();
     this.getLivingBackList();

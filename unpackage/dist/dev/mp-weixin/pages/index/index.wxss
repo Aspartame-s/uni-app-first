@@ -11,12 +11,13 @@
   padding: 141rpx 28rpx 236rpx;
   font-size: 14px;
   line-height: 24px;
+  position: relative;
 }
 .logo {
   position: absolute;
   left: 536rpx;
   right: 48rpx;
-  top: 24rpx;
+  top: 64rpx;
   width: 186rpx;
   height: 64rpx;
 }

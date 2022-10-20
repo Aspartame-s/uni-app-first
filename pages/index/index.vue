@@ -1,56 +1,65 @@
 <template>
-	<view class="container" :style="{'paddingBottom': paddingBottom}">
-		<image src="/static/img/suezhiboLOGO.png" class="logo"></image>
-		<view class="kechengbiao">
-			<image :src="imgbaseUrl + '/img/kechengbiao.png'" mode="" class="kechengbiao-img"></image>
-		</view>
-		<!-- <button class="share-btn" open-type="share">立即分享</button> -->
-		<view class="date-component-container">
-			<attendCalendar @onClick="selectDate"></attendCalendar>
-			<view class="link-container">
-				<image :src="imgbaseUrl + '/icon/shortlink1.png'" mode="" class="link"></image>
-				<image :src="imgbaseUrl + '/icon/shortlink1.png'" mode="" class="link"></image>
+	<view>
+		<view class="placeholder" :style="{'height': (iStatusBarHeight * 2) + 'rpx'}"></view>
+		<view class="container" :style="{'paddingBottom': paddingBottom}">
+			<image src="/static/img/suezhiboLOGO.png" class="logo"></image>
+			<view class="kechengbiao">
+				<image :src="imgbaseUrl + '/img/kechengbiao.png'" mode="" class="kechengbiao-img" @click="testNavi">
+				</image>
 			</view>
-		</view>
-		<view class="course-container">
-			<row-list v-if="lessonDataOnlyOne" v-for="(item, index) in lessonDataOnlyOne" :key="index"
-				:lessonInfo="item" :hasMargin="false" :isShowTime="false"></row-list>
-			<col-list v-if="lessonDataMuch" v-for="(item, index) in lessonDataMuch" :key="index" :lessonInfo="item">
-			</col-list>
-			<default-component style="width: 100%;" v-if="!lessonDataOnlyOne.length && !lessonDataMuch.length"></default-component>
-		</view>
-		<view style="margin-bottom: 16rpx;">
-			<swiper duration="500" class="swiper" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item v-for="(item, index) in bannerList" :key="index" class="swiperitem">
-					<image :src="item.bannerUrl" class="bannerImg"></image>
-				</swiper-item> 
-			</swiper>
-		</view>
-		<view class="living-and-liveback-container">
-			<view class="container-head">
-				<view class="tab-container">
-					<view class="tab-item" v-for="(item, index) in tabList" :key="index"
-						@click="tabChange(item.id, item.path)">
-						<image :src="item.active ? item.titleActiveUrl : item.titleUrl" alt="" class="tabTitle"></image>
-						<image :src="item.iconUrl" alt="" class="tabActiveLine" v-show="item.active"></image>
+			<!-- <button class="share-btn" open-type="share">立即分享</button> -->
+			<view class="date-component-container">
+				<attendCalendar @onClick="selectDate"></attendCalendar>
+				<view class="link-container">
+					<image :src="imgbaseUrl + '/icon/shortlink1.png'" mode="" class="link"></image>
+					<image :src="imgbaseUrl + '/icon/shortlink1.png'" mode="" class="link"></image>
+				</view>
+			</view>
+			<view class="course-container">
+				<row-list v-if="lessonDataOnlyOne" v-for="(item, index) in lessonDataOnlyOne" :key="index"
+					:lessonInfo="item" :hasMargin="false" :isShowTime="false"></row-list>
+				<col-list v-if="lessonDataMuch" v-for="(item, index) in lessonDataMuch" :key="index" :lessonInfo="item">
+				</col-list>
+				<default-component style="width: 100%;" v-if="!lessonDataOnlyOne.length && !lessonDataMuch.length">
+				</default-component>
+			</view>
+			<view style="margin-bottom: 16rpx;">
+				<swiper duration="500" class="swiper" :autoplay="autoplay" :interval="interval" :duration="duration">
+					<swiper-item v-for="(item, index) in bannerList" :key="index" class="swiperitem">
+						<image :src="item.bannerUrl" class="bannerImg"></image>
+					</swiper-item>
+				</swiper>
+			</view>
+			<view class="living-and-liveback-container">
+				<view class="container-head">
+					<view class="tab-container">
+						<view class="tab-item" v-for="(item, index) in tabList" :key="index"
+							@click="tabChange(item.id, item.path)">
+							<image :src="item.active ? item.titleActiveUrl : item.titleUrl" alt="" class="tabTitle">
+							</image>
+							<image :src="item.iconUrl" alt="" class="tabActiveLine" v-show="item.active"></image>
+						</view>
+					</view>
+					<view class="see-more" @click="seeMore">
+						查看更多
+						<image src="../../static/img/chakangengduo@2x.png" alt="" class="more"></image>
 					</view>
 				</view>
-				<view class="see-more" @click="seeMore">
-					查看更多
-					<image src="../../static/img/chakangengduo@2x.png" alt="" class="more"></image>
-				</view>
-			</view>
-			<view class="container-body">
-				<view v-if="path == '/living'">
-					<default-component v-if="!livingList.length" style="width: 100%;"></default-component>
-					<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item" :isLiving="true" v-else></row-list>
-				</view>
-				<view v-else>
-					<default-component v-if="!livingBackList.length" style="width: 100%;"></default-component>
-					<row-list v-for="(item, index) in livingBackList" :key="index" :lessonInfo="item" v-else></row-list>
+				<view class="container-body">
+					<view v-if="path == '/living'">
+						<default-component v-if="!livingList.length" style="width: 100%;"></default-component>
+						<row-list v-for="(item, index) in livingList" :key="index" :lessonInfo="item" :isLiving="true"
+							v-else></row-list>
+					</view>
+					<view v-else>
+						<default-component v-if="!livingBackList.length" style="width: 100%;"></default-component>
+						<row-list v-for="(item, index) in livingBackList" :key="index" :lessonInfo="item" v-else>
+						</row-list>
+					</view>
 				</view>
 			</view>
 		</view>
+
 	</view>
 </template>
 
@@ -68,6 +77,10 @@
 		getLivingList,
 		getLivingBackList
 	} from '../../utils/api/lesson.js';
+	import {
+		getHobbyList,
+		saveWxUserHobby
+	} from '../../utils/api/hobby.js';
 	import global from '../../common/global.js';
 	export default {
 		components: {
@@ -110,9 +123,15 @@
 				path: "/living",
 				livingList: [],
 				livingBackList: [],
+				iStatusBarHeight: null
 			}
 		},
 		methods: {
+			testNavi() {
+				uni.navigateTo({
+					url: '/pages/hobby/hobby'
+				})
+			},
 			selectDate(date) {
 				console.log(date)
 				this.getLessonList(date)
@@ -152,13 +171,13 @@
 			//获取直播列表
 			getLivingList() {
 				getLivingList().then(res => {
-					this.livingList = res.data.slice(0,2)
+					this.livingList = res.data.slice(0, 2)
 				})
 			},
 			//获取直播回放列表
 			getLivingBackList() {
 				getLivingBackList().then(res => {
-					this.livingBackList = res.data.slice(0,2)
+					this.livingBackList = res.data.slice(0, 2)
 				})
 			},
 			seeMore() {
@@ -168,28 +187,30 @@
 				})
 			}
 		},
+		onLoad() {
+			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+		},
 		mounted() {
-			console.log(global.paddingBottom)
 			// wx.hideShareMenu({
 			//   menus: ['shareAppMessage', 'shareTimeline']
 			// }),
-			uni.login({
-					provider: 'weixin',
-					success: res => {
-						userLogin('/wxmini/wxuser/login', {
-							"jscode": res.code
-						}).then(rr => {
-							console.log(rr)
-						})
-					}
-				}),
-				this.getBannerList('index')
-				this.getLivingList()
-				this.getLivingBackList()
+			// uni.login({
+			// 		provider: 'weixin',
+			// 		success: res => {
+			// 			userLogin('/wxmini/wxuser/login', {
+			// 				"jscode": res.code
+			// 			}).then(rr => {
+			// 				console.log(rr)
+			// 			})
+			// 		}
+			// 	}),
+			this.getBannerList('index')
+			this.getLivingList()
+			this.getLivingBackList()
 		},
-		onShow()  {
-						this.setTabBarIndex(0);
-				 },
+		onShow() {
+			this.setTabBarIndex(0);
+		},
 		onShareAppMessage(res) {
 			return {
 				title: '微信小程序测试分享',
@@ -209,13 +230,14 @@
 		padding: 141rpx 28rpx 236rpx;
 		font-size: 14px;
 		line-height: 24px;
+		position: relative;
 	}
 
 	.logo {
 		position: absolute;
 		left: 536rpx;
 		right: 48rpx;
-		top: 24rpx;
+		top: 64rpx;
 		width: 186rpx;
 		height: 64rpx;
 	}
@@ -308,14 +330,17 @@
 		width: 392rpx;
 		height: 77rpx;
 		@include between;
+
 		.tab-item {
 			width: 172rpx;
 			height: 77rpx;
 			@include betweenColumn;
+
 			.tabTitle {
 				width: 172rpx;
 				height: 46rpx;
 			}
+
 			.tabActiveLine {
 				width: 50rpx;
 				height: 12rpx;
