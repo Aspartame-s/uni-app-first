@@ -37,8 +37,17 @@ _vue.default.mixin({
           selected: index });
 
       }
-    } } });
+    } },
 
+  onShareAppMessage: function onShareAppMessage(res) {
+    console.log(res, 'res');
+    if (res.from == 'menu') {
+      return {
+        title: '微信小程序测试分享',
+        path: "/pages/index/index" };
+
+    }
+  } });
 
 
 createApp(app).$mount();
@@ -129,6 +138,15 @@ __webpack_require__(/*! ./utils/api/login */ 12),userLogin = _require.userLogin;
     // 	return padding
     // }
   },
+  onShareAppMessage: function onShareAppMessage(res) {
+    console.log(res);
+    // if(res.from == 'button') {
+    // 	return {
+    // 		title: '微信小程序测试分享',
+    // 		path: `/pages/courseDetail/courseDetail?courseId=${this.courseId}`
+    // 	}
+    // }
+  },
   onLaunch: function onLaunch() {var _this = this;
     console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！');
     console.log('App Launch');
@@ -140,7 +158,7 @@ __webpack_require__(/*! ./utils/api/login */ 12),userLogin = _require.userLogin;
     uni.login({
       provider: 'weixin',
       success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                  console.log(res);_context.next = 3;return (
+                  console.log(res, 'res');_context.next = 3;return (
                     userLogin('/wxmini/wxuser/login', {
                       "jscode": res.code }).
                     then(function (rr) {

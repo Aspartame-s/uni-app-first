@@ -27,13 +27,14 @@
 					20
 				</view>
 				<view class="handle-box">
-					<view class="collect-box">
+					<view class="collect-box" @click="collect">
 						收藏
-						<i class="iconfont icon-shoucang"></i>
+						<i class="iconfont icon-shoucang" :style="{'color': isCollected ? '#edc312' : ''}"></i>
 					</view>
 					<view class="share-box">
 						分享
 						<i class="iconfont icon-fenxiang"></i>
+						<button class="share-btn" open-type="share"></button>
 					</view>
 				</view>
 			</view>
@@ -70,6 +71,7 @@
 		getCourseDetailWithCourseId,
 		getTeacherDetailWithId
 	} from '../../utils/api/lesson.js';
+	import {saveUserCollect, cancelUserCollect, userCollectList} from '../../utils/api/wxuser.js'
 	import global from '../../common/global.js';
 	export default {
 		components: {
@@ -101,7 +103,8 @@
 				courseDetail: {},
 				teacherId: '',
 				teacherIntroduction: '',
-				tabFlag: 'course'
+				tabFlag: 'course',
+				isCollected: false
 			}
 		},
 		methods: {
@@ -165,6 +168,47 @@
 			},
 			back() {
 				uni.navigateBack()
+			},
+			//微信用户收藏的课程
+			userCollectList(id) {
+				userCollectList(id).then(res => {
+					if(res.data.indexOf(this.courseId) > -1) {
+						this.isCollected = true
+					}else {
+					}
+				})
+			},
+			//收藏
+			collect() {
+				var data = {
+					courseId: this.courseId,
+					wxUserId: uni.getStorageSync('wxUserId')
+				}
+				if(!this.isCollected) {
+					saveUserCollect(data).then(res => {
+						console.log(res)
+						if(res.code == 0) {
+							this.isCollected = true
+						}
+					})
+				}else {
+					cancelUserCollect(data).then(res => {
+						console.log(res)
+						if(res.code == 0) {
+							this.isCollected = false
+						}
+					})
+				}
+				
+			}
+		},
+		onShareAppMessage(res) {
+			console.log(res)
+			if(res.from == 'button') {
+				return {
+					title: '微信小程序测试分享',
+					path: `/pages/courseDetail/courseDetail?courseId=${this.courseId}`
+				}
 			}
 		},
 		onLoad(option) {
@@ -172,6 +216,7 @@
 			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 			this.getLessonList('', this.courseId)
 			this.getCourseDetailWithCourseId(this.courseId)
+			this.userCollectList(uni.getStorageSync('wxUserId'))
 		},
 	}
 </script>
@@ -299,13 +344,20 @@
 						font-size: 28rpx;
 					}
 					.icon-shoucang {
-						color: #edc312;
+						// color: #edc312;
 					}
 					.collect-box {
 						@include center;
 					}
 					.share-box {
 						@include center;
+						position: relative;
+						.share-btn {
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							opacity: 0;
+						}
 					}
 				}
 			}

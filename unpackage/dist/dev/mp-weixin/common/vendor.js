@@ -9911,7 +9911,7 @@ module.exports = {
 
 /* WEBPACK VAR INJECTION */(function(uni) {var
 baseUrl =
-__webpack_require__(/*! ./env.js */ 14).dev.baseUrl;
+__webpack_require__(/*! ./env.js */ 14).prod.baseUrl;
 
 module.exports = {
   /**二次封装uni.request()
@@ -9975,7 +9975,7 @@ module.exports = {
 module.exports = {
   // 开发环境
   dev: {
-    baseUrl: 'http://192.168.1.100:8989' },
+    baseUrl: 'http://192.168.1.100:8080' },
 
   // 测试环境
   test: {
@@ -10272,7 +10272,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.getCurrent
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.addUserWatch = exports.refreshUserPhone = exports.userCollectCount = exports.userWatchCount = exports.refreshUser = exports.getHistoryList = void 0;var _require =
+Object.defineProperty(exports, "__esModule", { value: true });exports.cancelUserCollect = exports.saveUserCollect = exports.userCollectList = exports.addUserWatch = exports.refreshUserPhone = exports.userCollectCount = exports.userWatchCount = exports.refreshUser = exports.getHistoryList = void 0;var _require =
 
 __webpack_require__(/*! ../http/request */ 13),request = _require.request;
 
@@ -10304,7 +10304,22 @@ exports.userCollectCount = userCollectCount;var refreshUserPhone = function refr
 //新增微信用户观看次数
 exports.refreshUserPhone = refreshUserPhone;var addUserWatch = function addUserWatch(data) {
   return request("/wxmini/wxuser-watch", 'POST', data);
-};exports.addUserWatch = addUserWatch;
+};
+
+//微信用户收藏的课程
+exports.addUserWatch = addUserWatch;var userCollectList = function userCollectList(id) {
+  return request("/wxmini/wxuser-collect/wxuser-collects/".concat(id), 'GET');
+};
+
+//保存微信用户收藏
+exports.userCollectList = userCollectList;var saveUserCollect = function saveUserCollect(data) {
+  return request("/wxmini/wxuser-collect", 'POST', data);
+};
+
+//微信用户取消收藏的课程
+exports.saveUserCollect = saveUserCollect;var cancelUserCollect = function cancelUserCollect(data) {
+  return request("/wxmini/wxuser-collect/wxuser-collect/".concat(data.wxUserId, "/").concat(data.courseId), 'DELETE');
+};exports.cancelUserCollect = cancelUserCollect;
 
 /***/ })
 ]]);

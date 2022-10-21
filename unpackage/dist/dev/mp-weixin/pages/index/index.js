@@ -204,7 +204,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);
 
 
@@ -262,11 +261,6 @@ var _date = __webpack_require__(/*! ../../utils/date/date.js */ 27);function _in
 
   },
   methods: {
-    testNavi: function testNavi() {
-      uni.navigateTo({
-        url: '/pages/hobby/hobby' });
-
-    },
     selectDate: function selectDate(date) {
       this.getLessonList(date);
     },
@@ -332,27 +326,20 @@ var _date = __webpack_require__(/*! ../../utils/date/date.js */ 27);function _in
     // wx.hideShareMenu({
     //   menus: ['shareAppMessage', 'shareTimeline']
     // }),
-    // uni.login({
-    // 		provider: 'weixin',
-    // 		success: res => {
-    // 			userLogin('/wxmini/wxuser/login', {
-    // 				"jscode": res.code
-    // 			}).then(rr => {
-    // 				console.log(rr)
-    // 			})
-    // 		}
-    // 	}),
-
   },
   onShow: function onShow() {
     this.setTabBarIndex(0);
-  },
-  onShareAppMessage: function onShareAppMessage(res) {
-    return {
-      title: '微信小程序测试分享',
-      path: '/pages/course/course' };
-
-  } };exports.default = _default;
+  }
+  // onShareAppMessage(res) {
+  // 	console.log(res, 'res')
+  // 	if(res.from == 'menu') {
+  // 		return {
+  // 			title: '微信小程序测试分享',
+  // 			path: `/pages/index/index`
+  // 		}
+  // 	}
+  // }
+};exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

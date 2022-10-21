@@ -27,6 +27,15 @@ Vue.mixin({
 				})
 			}
 		}
+	},
+	onShareAppMessage(res) {
+		console.log(res, 'res')
+		if(res.from == 'menu') {
+			return {
+				title: '微信小程序测试分享',
+				path: `/pages/index/index`
+			}
+		}
 	}
 })
 

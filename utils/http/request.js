@@ -1,6 +1,6 @@
 const {
   baseUrl
-} = require('./env.js').dev;
+} = require('./env.js').prod;
 
 module.exports = {
   /**二次封装uni.request()

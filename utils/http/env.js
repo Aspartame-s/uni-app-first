@@ -2,7 +2,7 @@
 module.exports = {
   // 开发环境
   dev: {
-    baseUrl: 'http://192.168.1.100:8989'
+    baseUrl: 'http://192.168.1.100:8080'
   },
   // 测试环境
   test: {

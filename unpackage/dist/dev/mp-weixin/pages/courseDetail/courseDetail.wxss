@@ -119,9 +119,6 @@
   margin-left: 12rpx;
   font-size: 28rpx;
 }
-.container .main-container .handle-container .handle-box .icon-shoucang {
-  color: #edc312;
-}
 .container .main-container .handle-container .handle-box .collect-box {
   display: flex;
   justify-content: center;
@@ -131,6 +128,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+.container .main-container .handle-container .handle-box .share-box .share-btn {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
 }
 .container .main-container .middle-link {
   width: 100%;

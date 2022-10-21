@@ -4,10 +4,9 @@
 		<view class="container" :style="{'paddingBottom': paddingBottom}">
 			<image src="/static/img/suezhiboLOGO.png" class="logo"></image>
 			<view class="kechengbiao">
-				<image :src="imgbaseUrl + '/img/kechengbiao.png'" mode="" class="kechengbiao-img" @click="testNavi">
+				<image :src="imgbaseUrl + '/img/kechengbiao.png'" mode="" class="kechengbiao-img">
 				</image>
 			</view>
-			<!-- <button class="share-btn" open-type="share">立即分享</button> -->
 			<view class="date-component-container">
 				<attendCalendar @onClick="selectDate"></attendCalendar>
 				<view class="link-container">
@@ -128,11 +127,6 @@
 			}
 		},
 		methods: {
-			testNavi() {
-				uni.navigateTo({
-					url: '/pages/hobby/hobby'
-				})
-			},
 			selectDate(date) {
 				this.getLessonList(date)
 			},
@@ -198,27 +192,19 @@
 			// wx.hideShareMenu({
 			//   menus: ['shareAppMessage', 'shareTimeline']
 			// }),
-			// uni.login({
-			// 		provider: 'weixin',
-			// 		success: res => {
-			// 			userLogin('/wxmini/wxuser/login', {
-			// 				"jscode": res.code
-			// 			}).then(rr => {
-			// 				console.log(rr)
-			// 			})
-			// 		}
-			// 	}),
-			
 		},
 		onShow() {
 			this.setTabBarIndex(0);
 		},
-		onShareAppMessage(res) {
-			return {
-				title: '微信小程序测试分享',
-				path: '/pages/course/course'
-			}
-		}
+		// onShareAppMessage(res) {
+		// 	console.log(res, 'res')
+		// 	if(res.from == 'menu') {
+		// 		return {
+		// 			title: '微信小程序测试分享',
+		// 			path: `/pages/index/index`
+		// 		}
+		// 	}
+		// }
 	}
 </script>
 <style lang="scss">
@@ -368,5 +354,10 @@
 	.container-body {
 		width: 100%;
 		height: auto;
+	}
+	.share-btn {
+		width: 20rpx;
+		height: 20rpx;
+		opacity: 0;
 	}
 </style>

@@ -133,4 +133,9 @@
   width: 100%;
   height: auto;
 }
+.share-btn {
+  width: 20rpx;
+  height: 20rpx;
+  opacity: 0;
+}
 

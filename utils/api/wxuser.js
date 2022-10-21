@@ -31,3 +31,18 @@ export const refreshUserPhone = (data) => {
 export const addUserWatch = (data) => {
 	return request(`/wxmini/wxuser-watch`, 'POST', data)
 }
+
+//微信用户收藏的课程
+export const userCollectList = (id) => {
+	return request(`/wxmini/wxuser-collect/wxuser-collects/${id}`, 'GET')
+}
+
+//保存微信用户收藏
+export const saveUserCollect = (data) => {
+	return request(`/wxmini/wxuser-collect`, 'POST', data)
+}
+
+//微信用户取消收藏的课程
+export const cancelUserCollect = (data) => {
+	return request(`/wxmini/wxuser-collect/wxuser-collect/${data.wxUserId}/${data.courseId}`, 'DELETE')
+}

@@ -15,6 +15,15 @@
 			// 	return padding
 			// }
 		},
+		onShareAppMessage(res) {
+			console.log(res)
+			// if(res.from == 'button') {
+			// 	return {
+			// 		title: '微信小程序测试分享',
+			// 		path: `/pages/courseDetail/courseDetail?courseId=${this.courseId}`
+			// 	}
+			// }
+		},
 		onLaunch: function() {
 			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！')
 			console.log('App Launch')
@@ -26,7 +35,7 @@
 			uni.login({
 				provider: 'weixin',
 				success: async res => {
-					console.log(res)
+					console.log(res, 'res')
 					await userLogin('/wxmini/wxuser/login', {
 						"jscode": res.code
 					}).then(rr => {

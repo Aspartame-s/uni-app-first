@@ -199,11 +199,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);
 
 
 
 
+var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);
 var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var colList = function colList() {Promise.all(/*! require.ensure | components/colList/colList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/colList/colList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/colList/colList.vue */ 86));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
@@ -235,7 +237,8 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
       courseDetail: {},
       teacherId: '',
       teacherIntroduction: '',
-      tabFlag: 'course' };
+      tabFlag: 'course',
+      isCollected: false };
 
   },
   methods: {
@@ -299,13 +302,55 @@ var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global
     },
     back: function back() {
       uni.navigateBack();
+    },
+    //微信用户收藏的课程
+    userCollectList: function userCollectList(id) {var _this4 = this;
+      (0, _wxuser.userCollectList)(id).then(function (res) {
+        if (res.data.indexOf(_this4.courseId) > -1) {
+          _this4.isCollected = true;
+        } else {
+        }
+      });
+    },
+    //收藏
+    collect: function collect() {var _this5 = this;
+      var data = {
+        courseId: this.courseId,
+        wxUserId: uni.getStorageSync('wxUserId') };
+
+      if (!this.isCollected) {
+        (0, _wxuser.saveUserCollect)(data).then(function (res) {
+          console.log(res);
+          if (res.code == 0) {
+            _this5.isCollected = true;
+          }
+        });
+      } else {
+        (0, _wxuser.cancelUserCollect)(data).then(function (res) {
+          console.log(res);
+          if (res.code == 0) {
+            _this5.isCollected = false;
+          }
+        });
+      }
+
     } },
 
+  onShareAppMessage: function onShareAppMessage(res) {
+    console.log(res);
+    if (res.from == 'button') {
+      return {
+        title: '微信小程序测试分享',
+        path: "/pages/courseDetail/courseDetail?courseId=".concat(this.courseId) };
+
+    }
+  },
   onLoad: function onLoad(option) {
     this.courseId = option.courseId;
     this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
     this.getLessonList('', this.courseId);
     this.getCourseDetailWithCourseId(this.courseId);
+    this.userCollectList(uni.getStorageSync('wxUserId'));
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
