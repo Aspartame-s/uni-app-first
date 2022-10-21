@@ -32,6 +32,9 @@
 					}).then(rr => {
 						uni.setStorageSync('wxUserId', rr.data.wxuser.id);
 						uni.setStorageSync('sessionKey', rr.data.sessionKey);
+						uni.setStorageSync('avatarUrl', rr.data.wxuser.avatarUrl);
+						uni.setStorageSync('nickName', rr.data.wxuser.nickName);
+						uni.setStorageSync('phone', rr.data.wxuser.phoneNumber);
 						if(rr.data.hobbies.length != 0) {
 							uni.switchTab({
 								url: '/pages/index/index'

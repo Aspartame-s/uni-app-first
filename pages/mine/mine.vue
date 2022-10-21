@@ -3,24 +3,24 @@
 		<view class="user-container">
 			<view class="user-info">
 				<view class="user-avatar">
-
+					<image :src="avatarUrl" mode="" class="avatar-img"></image>
 				</view>
 				<view class="user-name-refresh">
 					<view class="name">
-						张三
+						{{nickName}}
 					</view>
-					<view class="refresh">
+					<view class="refresh" @click="refreshUser">
 						<i class="iconfont icon-shuaxin"></i>
 					</view>
 				</view>
 			</view>
 			<view class="user-viewcount-course">
 				<view class="user-viewcount-course-item">
-					<span class="item-top">233323</span>
-					<span class="item-bottom">我的课程</span>
+					<span class="item-top">{{collectCount ? collectCount : 0}}</span>
+					<span class="item-bottom">我的收藏</span>
 				</view>
 				<view class="user-viewcount-course-item">
-					<span class="item-top">453434</span>
+					<span class="item-top">{{watchCount ? watchCount : 0}}</span>
 					<span class="item-bottom">观看次数</span>
 				</view>
 			</view>
@@ -37,39 +37,16 @@
 			</view>
 			<view class="box">
 				<view class="historyList-container">
-					<view class="historyList-item">
-						<view class="historyList-item-top">
-
+					<view class="historyList-item" v-for="(item, index) in historyList" :key="index">
+						<view class="historyList-item-top" @click="play(item)">
+							<image :src="item.lessonCover" mode="" class="coverImg"></image>
+							<video :src="item.lessonUrl" :show-center-play-btn="false" :id="'myVideo' + item.id"
+								@fullscreenchange="screenchange"></video>
 						</view>
 						<view class="historyList-item-bottom">
-							第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇
+							{{item.lessonDesc}}
 						</view>
 					</view>
-					<view class="historyList-item">
-						<view class="historyList-item-top">
-
-						</view>
-						<view class="historyList-item-bottom">
-							第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇
-						</view>
-					</view>
-					<view class="historyList-item">
-						<view class="historyList-item-top">
-
-						</view>
-						<view class="historyList-item-bottom">
-							第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇
-						</view>
-					</view>
-					<view class="historyList-item">
-						<view class="historyList-item-top">
-
-						</view>
-						<view class="historyList-item-bottom">
-							第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇第一篇章：学习准备篇
-						</view>
-					</view>
-
 				</view>
 			</view>
 			<view class="base-info-item" v-for="(item, index) in baseInfoLit" :key="index">
@@ -85,6 +62,7 @@
 
 <script>
 	import global from '../../common/global.js';
+	import {getHistoryList, refreshUser, userWatchCount, userCollectCount, addUserWatch} from '../../utils/api/wxuser.js'
 	export default {
 		data() {
 			return {
@@ -105,14 +83,91 @@
 						iconUrl: global.imgbaseUrl + '/my/feedback.png',
 						text: '意见反馈',
 					}
-				]
+				],
+				historyList: [],
+				avatarUrl: uni.getStorageSync('avatarUrl'),
+				nickName: uni.getStorageSync('nickName'),
+				watchCount: '',
+				collectCount: '',
+				eleId: '',
+				courseId: '',
+				lessonId: ''
 			}
 		},
 		methods: {
-
+			getHistoryList(id) {
+				getHistoryList(id).then(res => {
+					this.historyList = res.data.records
+				})
+			},
+			screenchange(e) {
+				let videoplay = uni.createVideoContext(this.eleId, this)
+				if (e.detail.fullScreen) {
+					videoplay.play()
+				} else {
+					let data = {
+					  courseId: this.courseId,
+					  lessonId: this.lessonId,
+					  wxUserId: uni.getStorageSync('wxUserId')
+					}
+					addUserWatch(data).then(res => {
+					  // console.log('添加一次直播', res);
+					  if(res.code == 0) {
+						  console.log('添加成功')
+						  this.userWatchCount(uni.getStorageSync('wxUserId'))
+					  }
+					})
+					videoplay.pause()
+				}
+			},
+			play(item) {
+				this.courseId = item.courseId
+				this.lessonId = item.id
+				this.eleId = 'myVideo' + item.id
+				console.log(this.eleId)
+				this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
+				this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+					direction: 90 // 屏幕逆时针90度
+				});
+			},
+			//更新用户
+			refreshUser() {
+				uni.getUserProfile({
+					 desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					 success: (res) => {
+						 const data = {
+							 encryptedData: res.encryptedData,
+							 iv: res.iv,
+							 sessionKey: uni.getStorageSync('sessionKey')
+						 }
+						 refreshUser(data).then(rr => {
+							 this.avatarUrl = rr.data.avatarUrl
+							 this.nickName = rr.data.nickName
+						 })
+					 }
+				})
+			},
+			//获取用户观看次数
+			userWatchCount(id) {
+				userWatchCount(id).then(res => {
+					this.watchCount = res.data
+				})
+			},
+			//获取用户收藏次数
+			userCollectCount(id) {
+				userCollectCount(id).then(res => {
+					this.collectCount = res.data
+				})
+			}
 		},
 		onShow() {
 			this.setTabBarIndex(3);
+		},
+		onLoad() {
+			const wxUserId = uni.getStorageSync('wxUserId')
+			this.getHistoryList(wxUserId)
+			this.userWatchCount(wxUserId)
+			this.userCollectCount(wxUserId)
 		}
 	}
 </script>
@@ -155,6 +210,12 @@
 					height: 148rpx;
 					margin-right: 28rpx;
 					background-color: #fff;
+					border-radius: 50%;
+					overflow: hidden;
+					.avatar-img {
+						width: 100%;
+						height: 100%;
+					}
 				}
 
 				.user-name-refresh {
@@ -166,7 +227,7 @@
 					justify-content: space-between;
 
 					.name {
-						font-size: 46rpx;
+						font-size: 42rpx;
 					}
 
 					.refresh {
@@ -267,6 +328,12 @@
 						.historyList-item-top {
 							width: 100%;
 							height: 120rpx;
+							overflow: hidden;
+							.coverImg {
+								width: 100%;
+								height: 120rpx;
+								border-radius: 16rpx 16rpx 0 0;
+							}
 						}
 
 						.historyList-item-bottom {

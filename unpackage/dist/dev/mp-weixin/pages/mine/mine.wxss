@@ -37,6 +37,12 @@
   height: 148rpx;
   margin-right: 28rpx;
   background-color: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.container .user-container .user-info .user-avatar .avatar-img {
+  width: 100%;
+  height: 100%;
 }
 .container .user-container .user-info .user-name-refresh {
   width: auto;
@@ -47,7 +53,7 @@
   justify-content: space-between;
 }
 .container .user-container .user-info .user-name-refresh .name {
-  font-size: 46rpx;
+  font-size: 42rpx;
 }
 .container .user-container .user-info .user-name-refresh .refresh .icon-shuaxin {
   font-size: 40rpx;
@@ -128,6 +134,12 @@
 .container .other-container .box .historyList-container .historyList-item .historyList-item-top {
   width: 100%;
   height: 120rpx;
+  overflow: hidden;
+}
+.container .other-container .box .historyList-container .historyList-item .historyList-item-top .coverImg {
+  width: 100%;
+  height: 120rpx;
+  border-radius: 16rpx 16rpx 0 0;
 }
 .container .other-container .box .historyList-container .historyList-item .historyList-item-bottom {
   width: 100%;

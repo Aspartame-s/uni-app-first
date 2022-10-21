@@ -35,11 +35,17 @@
 
 			</view>
 		</view>
+		<button open-type="getPhoneNumber" v-if="isShowModel" @getphonenumber="getPhoneNumber"
+			class="getPhoneBtn"></button>
 	</view>
 </template>
 
 <script>
 	import global from '../../common/global.js';
+	import {
+		refreshUserPhone,
+		addUserWatch
+	} from '../../utils/api/wxuser.js'
 	export default {
 		name: 'col-list',
 		props: {
@@ -58,11 +64,16 @@
 			hasLeftTopTip: {
 				type: Boolean,
 				default: true
+			},
+			isHandle: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
 			return {
-				imgbaseUrl: global.imgbaseUrl
+				imgbaseUrl: global.imgbaseUrl,
+				isShowModel: true
 			}
 		},
 		computed: {
@@ -95,31 +106,86 @@
 				return flag
 			}
 		},
+		mounted() {
+			const phone = uni.getStorageSync('phone')
+			if (phone) {
+				this.isShowModel = false
+			} else {
+				this.isShowModel = true
+			}
+		},
 		methods: {
-			test() {
-				console.log(this.isPlayOrSkip)
-			},
 			screenchange(e) {
 				let videoplay = uni.createVideoContext('myVideo', this)
 				if (e.detail.fullScreen) {
 					videoplay.play()
 				} else {
-					// let data = {
-					//   "courseId": this.properties.listdata.courseId,
-					//   "lessonId": this.properties.listdata.lessonId,
-					//   // "liveId": this.properties.liveId
-					// }
-					// addUserwatch('userwatch', data).then(res => {
-					//   // console.log('添加一次直播', res);
-					// })
+					let data = {
+					  courseId: this.lessonInfo.courseId,
+					  lessonId: this.lessonInfo.id,
+					  wxUserId: uni.getStorageSync('wxUserId')
+					}
+					addUserWatch(data).then(res => {
+					  console.log('添加一次直播', res);
+					})
 					videoplay.pause()
 				}
 			},
 			play() {
-				this.videoContext = uni.createVideoContext('myVideo', this); // 	创建 video 上下文 VideoContext 对象。
-				this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
-					direction: 90 // 屏幕逆时针90度
-				});
+				if(!this.isHandle) {
+					return
+				}
+				if (this.isStart) {
+					if (this.isPlayOrSkip) {
+						this.videoContext = uni.createVideoContext('myVideo', this); // 	创建 video 上下文 VideoContext 对象。
+						this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+							direction: 90 // 屏幕逆时针90度
+						});
+					} else {
+						// 订阅号跳转
+						uni.openChannelsLive({
+							finderUserName: 'sphfYruhmZYLxXt',
+							success: res => {
+								let data = {
+								  courseId: this.lessonInfo.courseId,
+								  lessonId: this.lessonInfo.id,
+								  wxUserId: uni.getStorageSync('wxUserId')
+								}
+								addUserWatch(data).then(res => {
+								  console.log('添加一次直播', res);
+								})
+								console.log('成功打开', res);
+							},
+							fail: res => {
+								console.log('打开失败', res);
+							}
+						})
+					}
+				} else {
+					console.log('未开始')
+					return
+				}
+			},
+			//获取手机号
+			getPhoneNumber(e) {
+				if(!this.isHandle) {
+					return
+				}
+				if (!e.detail.cloudID) {
+					return
+				} else {
+					const data = {
+						encryptedData: e.detail.encryptedData,
+						iv: e.detail.iv,
+						sessionKey: uni.getStorageSync('sessionKey')
+					}
+					refreshUserPhone(data).then(res => {
+						uni.setStorageSync('phone', res.data.phoneNumber)
+						this.isShowModel = false
+						this.play()
+					})
+			
+				}
 			}
 		}
 	}

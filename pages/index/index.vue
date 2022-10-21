@@ -82,6 +82,7 @@
 		saveWxUserHobby
 	} from '../../utils/api/hobby.js';
 	import global from '../../common/global.js';
+	import {getCurrentDate} from '../../utils/date/date.js'
 	export default {
 		components: {
 			rowList,
@@ -133,12 +134,10 @@
 				})
 			},
 			selectDate(date) {
-				console.log(date)
 				this.getLessonList(date)
 			},
 			getLessonList(date) {
 				return getLessonList(date).then(res => {
-					console.log(res)
 					if (res.data.length == 1) {
 						this.lessonDataOnlyOne = res.data
 						this.lessonDataMuch = null
@@ -187,8 +186,13 @@
 				})
 			}
 		},
-		onLoad() {
+		async onLoad() {
+			await this.$onLaunched;
 			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+			this.getLessonList(getCurrentDate())
+			this.getBannerList('index')
+			this.getLivingList()
+			this.getLivingBackList()
 		},
 		mounted() {
 			// wx.hideShareMenu({
@@ -204,9 +208,7 @@
 			// 			})
 			// 		}
 			// 	}),
-			this.getBannerList('index')
-			this.getLivingList()
-			this.getLivingBackList()
+			
 		},
 		onShow() {
 			this.setTabBarIndex(0);

@@ -35,7 +35,7 @@
 			</view>
 			<div class="course-detail-container">
 				<col-list :hasMargin="true" v-for="(item, index) in courseList" :key="index" :lessonInfo="item"
-					:hasVideo="false" :hasLeftTopTip="false" @click.native="enterCourseDetail(item.id)"></col-list>
+					:hasVideo="false" :hasLeftTopTip="false" @click.native="enterCourseDetail(item.id)" :isHandle="false"></col-list>
 			</div>
 		</view>
 
