@@ -25,6 +25,7 @@
 			// }
 		},
 		onLaunch: function() {
+			uni.setStorageSync('phone', null);
 			console.warn('当前组件仅支持 uni_modules 目录结构 ，请升级 HBuilderX 到 3.1.0 版本以上！')
 			console.log('App Launch')
 			// uni.login({
@@ -44,6 +45,7 @@
 						uni.setStorageSync('avatarUrl', rr.data.wxuser.avatarUrl);
 						uni.setStorageSync('nickName', rr.data.wxuser.nickName);
 						uni.setStorageSync('phone', rr.data.wxuser.phoneNumber);
+						// console.log(uni.getStorageSync('phone'), 'app')
 						if(rr.data.hobbies.length != 0) {
 							uni.switchTab({
 								url: '/pages/index/index'

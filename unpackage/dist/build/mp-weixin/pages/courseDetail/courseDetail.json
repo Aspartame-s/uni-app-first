@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "col-list": "/components/colList/colList"
+  }
+}

@@ -116,12 +116,12 @@
 					videoplay.play()
 				} else {
 					let data = {
-					  courseId: this.lessonInfo.courseId,
-					  lessonId: this.lessonInfo.id,
-					  wxUserId: uni.getStorageSync('wxUserId')
+						courseId: this.lessonInfo.courseId,
+						lessonId: this.lessonInfo.id,
+						wxUserId: uni.getStorageSync('wxUserId')
 					}
 					addUserWatch(data).then(res => {
-					  console.log('添加一次直播', res);
+						console.log('添加一次直播', res);
 					})
 					videoplay.pause()
 				}
@@ -139,12 +139,12 @@
 							finderUserName: 'sphfYruhmZYLxXt',
 							success: res => {
 								let data = {
-								  courseId: this.lessonInfo.courseId,
-								  lessonId: this.lessonInfo.id,
-								  wxUserId: uni.getStorageSync('wxUserId')
+									courseId: this.lessonInfo.courseId,
+									lessonId: this.lessonInfo.id,
+									wxUserId: uni.getStorageSync('wxUserId')
 								}
 								addUserWatch(data).then(res => {
-								  console.log('添加一次直播', res);
+									console.log('添加一次直播', res);
 								})
 								console.log('成功打开', res);
 							},
@@ -154,7 +154,12 @@
 						})
 					}
 				} else {
-					console.log('未开始')
+					// console.log('未开始')
+					wx.showModal({
+						title: '课程还未开始',
+						content: '请稍后观看',
+						showCancel: false
+					})
 					return
 				}
 

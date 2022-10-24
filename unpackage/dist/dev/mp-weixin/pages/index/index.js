@@ -316,6 +316,7 @@ var _date = __webpack_require__(/*! ../../utils/date/date.js */ 27);function _in
 
   onLoad: function onLoad() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                 _this5.$onLaunched);case 2:
+              // console.log(uni.getStorageSync('phone'), 'index')
               _this5.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
               _this5.getLessonList((0, _date.getCurrentDate)());
               _this5.getBannerList('index');

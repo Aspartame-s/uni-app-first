@@ -283,7 +283,12 @@ var _default = { name: 'row-list', props: { lessonInfo: { type: Object, default:
 
         }
       } else {
-        console.log('未开始');
+        // console.log('未开始')
+        wx.showModal({
+          title: '课程还未开始',
+          content: '请稍后观看',
+          showCancel: false });
+
         return;
       }
 

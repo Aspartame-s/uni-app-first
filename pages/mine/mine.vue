@@ -30,13 +30,14 @@
 				<view class="history">
 					历史记录
 				</view>
-				<view class="more">
+				<view class="more" @click="moreHistory">
 					查看更多
 					<i class="iconfont icon-you"></i>
 				</view>
 			</view>
 			<view class="box">
-				<view class="historyList-container">
+				<default-component v-if="!historyList.length" style="width: 100%;"></default-component>
+				<view class="historyList-container" v-else>
 					<view class="historyList-item" v-for="(item, index) in historyList" :key="index">
 						<view class="historyList-item-top" @click="play(item)">
 							<image :src="item.lessonCover" mode="" class="coverImg"></image>
@@ -49,7 +50,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="base-info-item" v-for="(item, index) in baseInfoLit" :key="index">
+			<view class="base-info-item" v-for="(item, index) in baseInfoLit" :key="index"
+				@click="showModel(item.text)">
 				<view class="base-info-left">
 					<image :src="item.iconUrl" mode="" class="base-info-icon"></image>
 					{{item.text}}
@@ -62,13 +64,22 @@
 
 <script>
 	import global from '../../common/global.js';
-	import {getHistoryList, refreshUser, userWatchCount, userCollectCount, addUserWatch} from '../../utils/api/wxuser.js'
+	import {
+		getHistoryList,
+		refreshUser,
+		userWatchCount,
+		userCollectCount,
+		addUserWatch
+	} from '../../utils/api/wxuser.js'
+	import defaultComponent from '../../components/defaultComponent/defaultComponent.vue'
 	export default {
+		components: {
+			defaultComponent
+		},
 		data() {
 			return {
 				paddingBottom: global.paddingBottom,
-				baseInfoLit: [
-					{
+				baseInfoLit: [{
 						id: 1,
 						iconUrl: global.imgbaseUrl + '/my/about.png',
 						text: '关于我们',
@@ -97,7 +108,7 @@
 		methods: {
 			getHistoryList(id) {
 				getHistoryList(id).then(res => {
-					this.historyList = res.data.records
+					this.historyList = res.data.records.slice(0, 10)
 				})
 			},
 			screenchange(e) {
@@ -106,16 +117,16 @@
 					videoplay.play()
 				} else {
 					let data = {
-					  courseId: this.courseId,
-					  lessonId: this.lessonId,
-					  wxUserId: uni.getStorageSync('wxUserId')
+						courseId: this.courseId,
+						lessonId: this.lessonId,
+						wxUserId: uni.getStorageSync('wxUserId')
 					}
 					addUserWatch(data).then(res => {
-					  // console.log('添加一次直播', res);
-					  if(res.code == 0) {
-						  console.log('添加成功')
-						  this.userWatchCount(uni.getStorageSync('wxUserId'))
-					  }
+						// console.log('添加一次直播', res);
+						if (res.code == 0) {
+							console.log('添加成功')
+							this.userWatchCount(uni.getStorageSync('wxUserId'))
+						}
 					})
 					videoplay.pause()
 				}
@@ -133,18 +144,20 @@
 			//更新用户
 			refreshUser() {
 				uni.getUserProfile({
-					 desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-					 success: (res) => {
-						 const data = {
-							 encryptedData: res.encryptedData,
-							 iv: res.iv,
-							 sessionKey: uni.getStorageSync('sessionKey')
-						 }
-						 refreshUser(data).then(rr => {
-							 this.avatarUrl = rr.data.avatarUrl
-							 this.nickName = rr.data.nickName
-						 })
-					 }
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					success: (res) => {
+						const data = {
+							encryptedData: res.encryptedData,
+							iv: res.iv,
+							sessionKey: uni.getStorageSync('sessionKey')
+						}
+						refreshUser(data).then(rr => {
+							this.avatarUrl = rr.data.avatarUrl
+							this.nickName = rr.data.nickName
+							uni.setStorageSync('avatarUrl', rr.data.avatarUrl);
+							uni.setStorageSync('nickName', rr.data.nickName);
+						})
+					}
 				})
 			},
 			//获取用户观看次数
@@ -158,12 +171,43 @@
 				userCollectCount(id).then(res => {
 					this.collectCount = res.data
 				})
-			}
+			},
+			//查看更多历史
+			moreHistory() {
+				uni.navigateTo({
+					url: `/pages/more/more?flag=history&headTitle=历史记录`
+				})
+			},
+			// 关于我们
+			showModel(text) {
+				if (text == '关于我们') {
+					uni.showModal({
+						title: '苏e学堂',
+						content: '2022年8月，江苏省电化教育馆推出的非学科类公益直播“苏e直播”上线啦!美术、音乐、书法、舞蹈、表演、手工、甜品制作、主持、体育……。“苏e直播”坚持公益属性，通过一节节超嗨直播，一门门好玩的课程，结合“双减”、课后服务、城乡义务教育均衡，以新媒体、新技术为小朋友们提供优质数字教育资源。',
+						showCancel: false
+					})
+				} else if (text == '意见反馈') {
+					uni.showModal({
+						title: '如您有任何意见请反馈至',
+						content: 'suezhibojs@163.com',
+						showCancel: false
+					})
+				}else {
+					 uni.showModal({
+					      title: '苏e学堂小程序',
+					      content:'1.0',
+					      showCancel:false
+					    })
+				}
+
+			},
 		},
 		onShow() {
 			this.setTabBarIndex(3);
 		},
 		onLoad() {
+			console.log(this.avatarUrl)
+			console.log(this.nickName)
 			const wxUserId = uni.getStorageSync('wxUserId')
 			this.getHistoryList(wxUserId)
 			this.userWatchCount(wxUserId)
@@ -212,6 +256,7 @@
 					background-color: #fff;
 					border-radius: 50%;
 					overflow: hidden;
+
 					.avatar-img {
 						width: 100%;
 						height: 100%;
@@ -310,7 +355,12 @@
 					overflow: visible;
 					display: flex;
 					padding: 36rpx 0 0 28rpx;
+
 					// width: max-content;
+					.quesheng {
+						width: 198rpx;
+						height: 170rpx;
+					}
 
 					.historyList-item {
 						flex-shrink: 0;
@@ -329,6 +379,7 @@
 							width: 100%;
 							height: 120rpx;
 							overflow: hidden;
+
 							.coverImg {
 								width: 100%;
 								height: 120rpx;
@@ -351,6 +402,7 @@
 					}
 				}
 			}
+
 			.base-info-item {
 				width: 100%;
 				height: 44rpx;
@@ -360,17 +412,20 @@
 				justify-content: space-between;
 				color: #353535;
 				margin-bottom: 44rpx;
+
 				.base-info-left {
 					height: 100%;
 					display: flex;
 					align-items: center;
 					font-size: 28rpx;
+
 					.base-info-icon {
 						width: 44rpx;
 						height: 44rpx;
 						margin-right: 32rpx;
 					}
 				}
+
 				.icon-you2 {
 					font-size: 32rpx;
 				}

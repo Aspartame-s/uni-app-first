@@ -18,8 +18,8 @@ export const getLivingList = () => {
 }
 
 //直播回放课时分页列表
-export const getLivingBackList = () => {
-	return request(`/wxmini/lesson/page/history`, 'GET')
+export const getLivingBackList = (page = '', size = '') => {
+	return request(`/wxmini/lesson/page/history?current=${page}&size=${size}`, 'GET')
 }
 
 //课程类别列表

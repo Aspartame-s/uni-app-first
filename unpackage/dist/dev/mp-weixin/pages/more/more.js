@@ -95,6 +95,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uniLoadMore: function() {
+      return Promise.all(/*! import() | uni_modules/uni-load-more/components/uni-load-more/uni-load-more */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uni-load-more/components/uni-load-more/uni-load-more")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uni-load-more/components/uni-load-more/uni-load-more.vue */ 107))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -149,8 +172,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 79));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
+
+
+
+var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);
+
+
+
+var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowList = function rowList() {Promise.all(/*! require.ensure | components/rowList/rowList */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rowList/rowList")]).then((function () {return resolve(__webpack_require__(/*! ../../components/rowList/rowList.vue */ 79));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 {
@@ -161,22 +191,45 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);var rowLi
     return {
       livingList: [],
       livingBackList: [],
+      historyList: [],
       flag: null,
       iStatusBarHeight: null,
-      headTitle: '' };
-
+      headTitle: '',
+      loadStatus: 'loading',
+      isLoadMore: false, //是否加载中
+      page: 1, //页码
+      size: 10 //每页条目数
+    };
   },
   methods: {
     //获取直播列表
-    getLivingList: function getLivingList() {var _this = this;
-      (0, _lesson.getLivingList)().then(function (res) {
+    getLivingList: function getLivingList(page, size) {var _this = this;
+      (0, _lesson.getLivingList)(page, size).then(function (res) {
         _this.livingList = res.data;
       });
     },
     //获取直播回放列表
-    getLivingBackList: function getLivingBackList() {var _this2 = this;
-      (0, _lesson.getLivingBackList)().then(function (res) {
-        _this2.livingBackList = res.data;
+    getLivingBackList: function getLivingBackList(page, size) {var _this2 = this;
+      (0, _lesson.getLivingBackList)(page, size).then(function (res) {
+        if (res.data.records.length) {
+          _this2.livingBackList = _this2.livingBackList.concat(res.data.records);
+          if (res.data.records.length < _this2.pagesize) {//判断接口返回数据量小于请求数据量，则表示此为最后一页
+            _this2.isLoadMore = true;
+            _this2.loadStatus = 'nomore';
+          } else {
+            _this2.isLoadMore = false;
+          }
+        } else {
+          _this2.isLoadMore = true;
+          _this2.loadStatus = 'nomore';
+        }
+
+      });
+    },
+    //获取历史记录列表
+    getHistoryList: function getHistoryList(id) {var _this3 = this;
+      (0, _wxuser.getHistoryList)(id).then(function (res) {
+        _this3.historyList = res.data.records;
       });
     },
     back: function back() {
@@ -191,7 +244,16 @@ var _lesson = __webpack_require__(/*! ../../utils/api/lesson.js */ 24);var rowLi
   },
   mounted: function mounted() {
     this.getLivingList();
-    this.getLivingBackList();
+    this.getLivingBackList(this.page, this.size);
+    var wxUserId = uni.getStorageSync('wxUserId');
+    this.getHistoryList(wxUserId);
+  },
+  onReachBottom: function onReachBottom() {//上拉触底函数
+    if (!this.isLoadMore) {//此处判断，上锁，防止重复请求
+      this.isLoadMore = true;
+      this.page += 1;
+      this.getLivingBackList(this.page, this.size);
+    }
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

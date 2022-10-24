@@ -6,9 +6,13 @@
 			{{headTitle}}
 		</view>
 		<view :style="{'marginTop': (iStatusBarHeight * 2 + 104) + 'rpx'}">
-			<view class="list-item-container" v-for="(item, index) in (flag == '/living' ? livingList : livingBackList)">
+			<view class="list-item-container"
+				v-for="(item, index) in (flag == '/living' ? livingList : flag == '/livehistory' ? livingBackList : historyList)">
 				<row-list :lessonInfo="item" :hasMargin="false" :isLiving="flag == '/living' ? true : false"></row-list>
-			</view> 
+			</view>
+		</view>
+		<view v-show="isLoadMore">
+			<uni-load-more :status="loadStatus"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -19,6 +23,9 @@
 		getLivingList,
 		getLivingBackList
 	} from '../../utils/api/lesson.js';
+	import {
+		getHistoryList
+	} from '../../utils/api/wxuser.js'
 	export default {
 		components: {
 			rowList
@@ -27,38 +34,70 @@
 			return {
 				livingList: [],
 				livingBackList: [],
+				historyList: [],
 				flag: null,
 				iStatusBarHeight: null,
-				headTitle: ''
+				headTitle: '',
+				loadStatus: 'loading',
+				isLoadMore: false, //是否加载中
+				page: 1, //页码
+				size: 10, //每页条目数
 			}
 		},
 		methods: {
 			//获取直播列表
-			getLivingList() {
-				getLivingList().then(res => {
+			getLivingList(page, size) {
+				getLivingList(page, size).then(res => {
 					this.livingList = res.data
 				})
 			},
 			//获取直播回放列表
-			getLivingBackList() {
-				getLivingBackList().then(res => {
-					this.livingBackList = res.data
+			getLivingBackList(page, size) {
+				getLivingBackList(page, size).then(res => {
+					if (res.data.records.length) {
+						this.livingBackList = this.livingBackList.concat(res.data.records)
+						if (res.data.records.length < this.pagesize) { //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							this.isLoadMore = true
+							this.loadStatus = 'nomore'
+						} else {
+							this.isLoadMore = false
+						}
+					} else {
+						this.isLoadMore = true
+						this.loadStatus = 'nomore'
+					}
+
+				})
+			},
+			//获取历史记录列表
+			getHistoryList(id) {
+				getHistoryList(id).then(res => {
+					this.historyList = res.data.records
 				})
 			},
 			back() {
 				uni.navigateBack()
 			}
 		},
-		 onLoad(option) {
-			 this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
-			 console.log(uni.getSystemInfoSync().statusBarHeight)
-			 this.flag = option.flag
-			 this.headTitle = option.headTitle
-		 },
+		onLoad(option) {
+			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
+			console.log(uni.getSystemInfoSync().statusBarHeight)
+			this.flag = option.flag
+			this.headTitle = option.headTitle
+		},
 		mounted() {
 			this.getLivingList()
-			this.getLivingBackList()
-		}
+			this.getLivingBackList(this.page, this.size)
+			const wxUserId = uni.getStorageSync('wxUserId')
+			this.getHistoryList(wxUserId)
+		},
+		onReachBottom() { //上拉触底函数
+			if (!this.isLoadMore) { //此处判断，上锁，防止重复请求
+				this.isLoadMore = true
+				this.page += 1
+				this.getLivingBackList(this.page, this.size)
+			}
+		},
 	}
 </script>
 
@@ -67,10 +106,11 @@
 		height: auto;
 		width: 100%;
 		min-height: 100vh;
-		background-color: #F8F8F8; 
+		background-color: #F8F8F8;
 		// padding-top: var(--status-bar-height);
 		// padding-top: env(safe-area-inset-top);
-		padding-bottom: env(safe-area-inset-bottom); 
+		padding-bottom: env(safe-area-inset-bottom);
+
 		.placeholder {
 			width: 100%;
 			// height: 88rpx;
@@ -79,6 +119,7 @@
 			top: 0;
 			z-index: 9999;
 		}
+
 		.custom-bar {
 			width: 100%;
 			height: 104rpx;
@@ -93,6 +134,7 @@
 			position: fixed;
 			top: 0;
 			z-index: 9998;
+
 			.back {
 				width: 39rpx;
 				height: 32rpx;
@@ -100,6 +142,7 @@
 				left: 42rpx;
 			}
 		}
+
 		.list-item-container {
 			width: 100%;
 			height: auto;

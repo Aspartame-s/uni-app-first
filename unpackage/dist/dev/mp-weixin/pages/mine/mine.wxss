@@ -123,6 +123,10 @@
   display: flex;
   padding: 36rpx 0 0 28rpx;
 }
+.container .other-container .box .historyList-container .quesheng {
+  width: 198rpx;
+  height: 170rpx;
+}
 .container .other-container .box .historyList-container .historyList-item {
   flex-shrink: 0;
   width: 260rpx;

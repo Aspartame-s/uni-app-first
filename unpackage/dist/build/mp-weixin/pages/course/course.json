@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "苏e学堂",
+  "navigationBarBackgroundColor": "#eee",
+  "usingComponents": {
+    "col-list": "/components/colList/colList"
+  }
+}

@@ -182,6 +182,7 @@
 		},
 		async onLoad() {
 			await this.$onLaunched;
+			// console.log(uni.getStorageSync('phone'), 'index')
 			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
 			this.getLessonList(getCurrentDate())
 			this.getBannerList('index')
