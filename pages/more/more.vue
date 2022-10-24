@@ -42,18 +42,32 @@
 				isLoadMore: false, //是否加载中
 				page: 1, //页码
 				size: 10, //每页条目数
+				totalPage: null //总页数
 			}
 		},
 		methods: {
 			//获取直播列表
 			getLivingList(page, size) {
 				getLivingList(page, size).then(res => {
-					this.livingList = res.data
+					this.totalPage = Math.ceil(res.data.total / this.size)
+					if (res.data.records.length) {
+						this.livingList = this.livingList.concat(res.data.records)
+						if (res.data.records.length < this.pagesize) { //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							this.isLoadMore = true
+							this.loadStatus = 'nomore'
+						} else {
+							this.isLoadMore = false
+						}
+					} else {
+						this.isLoadMore = true
+						this.loadStatus = 'nomore'
+					}
 				})
 			},
 			//获取直播回放列表
 			getLivingBackList(page, size) {
 				getLivingBackList(page, size).then(res => {
+					this.totalPage = Math.ceil(res.data.total / this.size)
 					if (res.data.records.length) {
 						this.livingBackList = this.livingBackList.concat(res.data.records)
 						if (res.data.records.length < this.pagesize) { //判断接口返回数据量小于请求数据量，则表示此为最后一页
@@ -72,7 +86,19 @@
 			//获取历史记录列表
 			getHistoryList(id) {
 				getHistoryList(id).then(res => {
-					this.historyList = res.data.records
+					this.totalPage = Math.ceil(res.data.total / this.size)
+					if (res.data.records.length) {
+						this.historyList = this.historyList.concat(res.data.records)
+						if (res.data.records.length < this.pagesize) { //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							this.isLoadMore = true
+							this.loadStatus = 'nomore'
+						} else {
+							this.isLoadMore = false
+						}
+					} else {
+						this.isLoadMore = true
+						this.loadStatus = 'nomore'
+					}
 				})
 			},
 			back() {
@@ -81,22 +107,31 @@
 		},
 		onLoad(option) {
 			this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
-			console.log(uni.getSystemInfoSync().statusBarHeight)
 			this.flag = option.flag
 			this.headTitle = option.headTitle
 		},
 		mounted() {
-			this.getLivingList()
-			this.getLivingBackList(this.page, this.size)
 			const wxUserId = uni.getStorageSync('wxUserId')
-			this.getHistoryList(wxUserId)
+			if(this.flag == '/living') {
+				this.getLivingList()
+			}else if(this.flag == '/livehistory') {
+				this.getLivingBackList(this.page, this.size)
+			}else if(this.flag == 'history') {
+				this.getHistoryList(wxUserId)
+			}
 		},
 		onReachBottom() { //上拉触底函数
-			if (!this.isLoadMore) { //此处判断，上锁，防止重复请求
-				this.isLoadMore = true
-				this.page += 1
-				this.getLivingBackList(this.page, this.size)
+			if (this.page >= this.totalPage) {
+				this.loadStatus = 'nomore'
+				return
+			} else {
+				if (!this.isLoadMore) { //此处判断，上锁，防止重复请求
+					this.isLoadMore = true
+					this.page += 1
+					this.getLivingBackList(this.page, this.size)
+				}
 			}
+
 		},
 	}
 </script>

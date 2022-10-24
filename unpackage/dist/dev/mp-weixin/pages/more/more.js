@@ -198,19 +198,33 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
       loadStatus: 'loading',
       isLoadMore: false, //是否加载中
       page: 1, //页码
-      size: 10 //每页条目数
+      size: 10, //每页条目数
+      totalPage: null //总页数
     };
   },
   methods: {
     //获取直播列表
     getLivingList: function getLivingList(page, size) {var _this = this;
       (0, _lesson.getLivingList)(page, size).then(function (res) {
-        _this.livingList = res.data;
+        _this.totalPage = Math.ceil(res.data.total / _this.size);
+        if (res.data.records.length) {
+          _this.livingList = _this.livingList.concat(res.data.records);
+          if (res.data.records.length < _this.pagesize) {//判断接口返回数据量小于请求数据量，则表示此为最后一页
+            _this.isLoadMore = true;
+            _this.loadStatus = 'nomore';
+          } else {
+            _this.isLoadMore = false;
+          }
+        } else {
+          _this.isLoadMore = true;
+          _this.loadStatus = 'nomore';
+        }
       });
     },
     //获取直播回放列表
     getLivingBackList: function getLivingBackList(page, size) {var _this2 = this;
       (0, _lesson.getLivingBackList)(page, size).then(function (res) {
+        _this2.totalPage = Math.ceil(res.data.total / _this2.size);
         if (res.data.records.length) {
           _this2.livingBackList = _this2.livingBackList.concat(res.data.records);
           if (res.data.records.length < _this2.pagesize) {//判断接口返回数据量小于请求数据量，则表示此为最后一页
@@ -229,7 +243,19 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
     //获取历史记录列表
     getHistoryList: function getHistoryList(id) {var _this3 = this;
       (0, _wxuser.getHistoryList)(id).then(function (res) {
-        _this3.historyList = res.data.records;
+        _this3.totalPage = Math.ceil(res.data.total / _this3.size);
+        if (res.data.records.length) {
+          _this3.historyList = _this3.historyList.concat(res.data.records);
+          if (res.data.records.length < _this3.pagesize) {//判断接口返回数据量小于请求数据量，则表示此为最后一页
+            _this3.isLoadMore = true;
+            _this3.loadStatus = 'nomore';
+          } else {
+            _this3.isLoadMore = false;
+          }
+        } else {
+          _this3.isLoadMore = true;
+          _this3.loadStatus = 'nomore';
+        }
       });
     },
     back: function back() {
@@ -238,22 +264,31 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
 
   onLoad: function onLoad(option) {
     this.iStatusBarHeight = uni.getSystemInfoSync().statusBarHeight;
-    console.log(uni.getSystemInfoSync().statusBarHeight);
     this.flag = option.flag;
     this.headTitle = option.headTitle;
   },
   mounted: function mounted() {
-    this.getLivingList();
-    this.getLivingBackList(this.page, this.size);
     var wxUserId = uni.getStorageSync('wxUserId');
-    this.getHistoryList(wxUserId);
+    if (this.flag == '/living') {
+      this.getLivingList();
+    } else if (this.flag == '/livehistory') {
+      this.getLivingBackList(this.page, this.size);
+    } else if (this.flag == 'history') {
+      this.getHistoryList(wxUserId);
+    }
   },
   onReachBottom: function onReachBottom() {//上拉触底函数
-    if (!this.isLoadMore) {//此处判断，上锁，防止重复请求
-      this.isLoadMore = true;
-      this.page += 1;
-      this.getLivingBackList(this.page, this.size);
+    if (this.page >= this.totalPage) {
+      this.loadStatus = 'nomore';
+      return;
+    } else {
+      if (!this.isLoadMore) {//此处判断，上锁，防止重复请求
+        this.isLoadMore = true;
+        this.page += 1;
+        this.getLivingBackList(this.page, this.size);
+      }
     }
+
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
