@@ -84,8 +84,8 @@
 				})
 			},
 			//获取历史记录列表
-			getHistoryList(id) {
-				getHistoryList(id).then(res => {
+			getHistoryList(id, page, size) {
+				getHistoryList(id, page, size).then(res => {
 					this.totalPage = Math.ceil(res.data.total / this.size)
 					if (res.data.records.length) {
 						this.historyList = this.historyList.concat(res.data.records)
@@ -113,14 +113,15 @@
 		mounted() {
 			const wxUserId = uni.getStorageSync('wxUserId')
 			if(this.flag == '/living') {
-				this.getLivingList()
+				this.getLivingList(this.page, this.size)
 			}else if(this.flag == '/livehistory') {
 				this.getLivingBackList(this.page, this.size)
 			}else if(this.flag == 'history') {
-				this.getHistoryList(wxUserId)
+				this.getHistoryList(wxUserId, this.page, this.size)
 			}
 		},
 		onReachBottom() { //上拉触底函数
+		console.log(this.flag)
 			if (this.page >= this.totalPage) {
 				this.loadStatus = 'nomore'
 				return
@@ -128,7 +129,13 @@
 				if (!this.isLoadMore) { //此处判断，上锁，防止重复请求
 					this.isLoadMore = true
 					this.page += 1
-					this.getLivingBackList(this.page, this.size)
+					if(this.flag == '/living') {
+						this.getLivingList(this.page, this.size)
+					}else if(this.flag == '/livehistory') {
+						this.getLivingBackList(this.page, this.size)
+					}else if(this.flag == 'history') {
+						this.getHistoryList(uni.getStorageSync('wxUserId'), this.page, this.size)
+					}
 				}
 			}
 

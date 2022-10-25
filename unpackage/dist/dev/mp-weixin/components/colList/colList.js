@@ -82,15 +82,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = _vm.hasLeftTopTip ? _vm.lessonInfo.startTime.substring(11, 16) : null
-  var m0 = false ? undefined : null
-  var m1 = false ? undefined : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        g0: g0,
-        m0: m0,
-        m1: m1
+        g0: g0
       }
     }
   )

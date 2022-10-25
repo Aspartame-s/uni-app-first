@@ -23,14 +23,14 @@
 					<image :src="lessonInfo.teacher.teacherAvatar" class="teacher-icon"></image>
 					<span class="teacher-name">{{lessonInfo.teacher.teacherName}}</span>
 				</view>
-				<view v-if="false">
+				<!-- <view v-if="false">
 					<view class="live-time" v-if="Number(lessonInfo.videoDuration) >= Number(lessonInfo.elapsedTime)">
-						已播1分钟</view>
+						已播{{lessonInfo.elapsedTime}}分钟</view>
 					<view class="live-time" v-else>已播完</view>
-				</view>
+				</view> -->
 				<view class="view-container">
 					<image src="../../static/img/viewCount@2x.png" mode="" class="view-count"></image>
-					<span class="count-num">45</span>
+					<span class="count-num">{{lessonInfo.views}}</span>
 				</view>
 
 			</view>

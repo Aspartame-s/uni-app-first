@@ -3660,8 +3660,8 @@ exports.getLessonList = getLessonList;var getBannerList = function getBannerList
 };
 
 //正在直播的课时分页列表
-exports.getBannerList = getBannerList;var getLivingList = function getLivingList() {
-  return request("/wxmini/lesson/page/live", 'GET');
+exports.getBannerList = getBannerList;var getLivingList = function getLivingList() {var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  return request("/wxmini/lesson/page/live?current=".concat(page, "&size=").concat(size), 'GET');
 };
 
 //直播回放课时分页列表
@@ -10298,8 +10298,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.cancelUser
 __webpack_require__(/*! ../http/request */ 13),request = _require.request;
 
 //微信用户观看记录分页列表(我的 历史记录)
-var getHistoryList = function getHistoryList(id) {
-  return request("/wxmini/wxuser-watch/page/".concat(id), 'GET');
+var getHistoryList = function getHistoryList(id) {var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  return request("/wxmini/wxuser-watch/page/".concat(id, "?current=").concat(page, "&size=").concat(size), 'GET');
 };
 
 //更新用户

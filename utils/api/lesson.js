@@ -13,8 +13,8 @@ export const getBannerList = (route) => {
 }
 
 //正在直播的课时分页列表
-export const getLivingList = () => {
-	return request(`/wxmini/lesson/page/live`, 'GET')
+export const getLivingList = (page = '', size = '') => {
+	return request(`/wxmini/lesson/page/live?current=${page}&size=${size}`, 'GET')
 }
 
 //直播回放课时分页列表

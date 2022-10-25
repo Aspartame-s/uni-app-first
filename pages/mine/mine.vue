@@ -24,6 +24,9 @@
 					<span class="item-bottom">观看次数</span>
 				</view>
 			</view>
+			<!-- <button class="avatar-wrapper" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
+			  <image class="avatar" src="{{avatarUrl}}"></image>
+			</button> -->
 		</view>
 		<view class="other-container">
 			<view class="history-more">
@@ -106,6 +109,9 @@
 			}
 		},
 		methods: {
+			onChooseAvatar(e) {
+				console.log(e)
+			},
 			getHistoryList(id) {
 				getHistoryList(id).then(res => {
 					this.historyList = res.data.records.slice(0, 10)
@@ -135,7 +141,6 @@
 				this.courseId = item.courseId
 				this.lessonId = item.id
 				this.eleId = 'myVideo' + item.id
-				console.log(this.eleId)
 				this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
 				this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
 					direction: 90 // 屏幕逆时针90度
@@ -217,6 +222,11 @@
 </script>
 
 <style lang="scss">
+	.avatar-wrapper {
+		width: 100rpx;
+		height: 100rpx;
+		background-color: pink;
+	}
 	::-webkit-scrollbar {
 		display: none;
 	}

@@ -3,8 +3,8 @@ const {
 } = require('../http/request')
 
 //微信用户观看记录分页列表(我的 历史记录)
-export const getHistoryList = (id) => {
-	return request(`/wxmini/wxuser-watch/page/${id}`, 'GET')
+export const getHistoryList = (id, page = '', size = '') => {
+	return request(`/wxmini/wxuser-watch/page/${id}?current=${page}&size=${size}`, 'GET')
 }
 
 //更新用户

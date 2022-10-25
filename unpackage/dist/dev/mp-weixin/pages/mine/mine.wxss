@@ -1,6 +1,11 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
+.avatar-wrapper {
+  width: 100rpx;
+  height: 100rpx;
+  background-color: pink;
+}
 ::-webkit-scrollbar {
   display: none;
 }

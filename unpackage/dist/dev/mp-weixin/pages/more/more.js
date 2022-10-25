@@ -241,8 +241,8 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
       });
     },
     //获取历史记录列表
-    getHistoryList: function getHistoryList(id) {var _this3 = this;
-      (0, _wxuser.getHistoryList)(id).then(function (res) {
+    getHistoryList: function getHistoryList(id, page, size) {var _this3 = this;
+      (0, _wxuser.getHistoryList)(id, page, size).then(function (res) {
         _this3.totalPage = Math.ceil(res.data.total / _this3.size);
         if (res.data.records.length) {
           _this3.historyList = _this3.historyList.concat(res.data.records);
@@ -270,14 +270,15 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
   mounted: function mounted() {
     var wxUserId = uni.getStorageSync('wxUserId');
     if (this.flag == '/living') {
-      this.getLivingList();
+      this.getLivingList(this.page, this.size);
     } else if (this.flag == '/livehistory') {
       this.getLivingBackList(this.page, this.size);
     } else if (this.flag == 'history') {
-      this.getHistoryList(wxUserId);
+      this.getHistoryList(wxUserId, this.page, this.size);
     }
   },
   onReachBottom: function onReachBottom() {//上拉触底函数
+    console.log(this.flag);
     if (this.page >= this.totalPage) {
       this.loadStatus = 'nomore';
       return;
@@ -285,7 +286,13 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
       if (!this.isLoadMore) {//此处判断，上锁，防止重复请求
         this.isLoadMore = true;
         this.page += 1;
-        this.getLivingBackList(this.page, this.size);
+        if (this.flag == '/living') {
+          this.getLivingList(this.page, this.size);
+        } else if (this.flag == '/livehistory') {
+          this.getLivingBackList(this.page, this.size);
+        } else if (this.flag == 'history') {
+          this.getHistoryList(uni.getStorageSync('wxUserId'), this.page, this.size);
+        }
       }
     }
 

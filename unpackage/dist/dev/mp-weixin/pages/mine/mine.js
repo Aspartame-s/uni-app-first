@@ -197,6 +197,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 26));
 var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -262,14 +265,16 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);function 
 //
 //
 //
-var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 93));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { defaultComponent: defaultComponent }, data: function data() {return { paddingBottom: _global.default.paddingBottom, baseInfoLit: [{ id: 1, iconUrl: _global.default.imgbaseUrl + '/my/about.png', text: '关于我们' }, { id: 2, iconUrl: _global.default.imgbaseUrl + '/my/versions.png', text: '版本信息' }, { id: 3, iconUrl: _global.default.imgbaseUrl + '/my/feedback.png', text: '意见反馈' }], historyList: [], avatarUrl: uni.getStorageSync('avatarUrl'), nickName: uni.getStorageSync('nickName'), watchCount: '', collectCount: '', eleId: '', courseId: '', lessonId: '' };}, methods: { getHistoryList: function getHistoryList(id) {var _this = this;(0, _wxuser.getHistoryList)(id).then(function (res) {_this.historyList = res.data.records.slice(0, 10);});}, screenchange: function screenchange(e) {var _this2 = this;var videoplay = uni.createVideoContext(this.eleId, this);if (e.detail.fullScreen) {videoplay.play();} else {var data = { courseId: this.courseId, lessonId: this.lessonId, wxUserId: uni.getStorageSync('wxUserId') };(0, _wxuser.addUserWatch)(data).then(function (res) {// console.log('添加一次直播', res);
+//
+//
+//
+var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 93));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { defaultComponent: defaultComponent }, data: function data() {return { paddingBottom: _global.default.paddingBottom, baseInfoLit: [{ id: 1, iconUrl: _global.default.imgbaseUrl + '/my/about.png', text: '关于我们' }, { id: 2, iconUrl: _global.default.imgbaseUrl + '/my/versions.png', text: '版本信息' }, { id: 3, iconUrl: _global.default.imgbaseUrl + '/my/feedback.png', text: '意见反馈' }], historyList: [], avatarUrl: uni.getStorageSync('avatarUrl'), nickName: uni.getStorageSync('nickName'), watchCount: '', collectCount: '', eleId: '', courseId: '', lessonId: '' };}, methods: { onChooseAvatar: function onChooseAvatar(e) {console.log(e);}, getHistoryList: function getHistoryList(id) {var _this = this;(0, _wxuser.getHistoryList)(id).then(function (res) {_this.historyList = res.data.records.slice(0, 10);});}, screenchange: function screenchange(e) {var _this2 = this;var videoplay = uni.createVideoContext(this.eleId, this);if (e.detail.fullScreen) {videoplay.play();} else {var data = { courseId: this.courseId, lessonId: this.lessonId, wxUserId: uni.getStorageSync('wxUserId') };(0, _wxuser.addUserWatch)(data).then(function (res) {// console.log('添加一次直播', res);
           if (res.code == 0) {console.log('添加成功');_this2.userWatchCount(uni.getStorageSync('wxUserId'));}});videoplay.pause();}
     },
     play: function play(item) {
       this.courseId = item.courseId;
       this.lessonId = item.id;
       this.eleId = 'myVideo' + item.id;
-      console.log(this.eleId);
       this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
       this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
         direction: 90 // 屏幕逆时针90度
