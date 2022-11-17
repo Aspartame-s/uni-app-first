@@ -2,16 +2,20 @@
 	<view class="container" :style="{'paddingBottom': paddingBottom}">
 		<view class="user-container">
 			<view class="user-info">
-				<view class="user-avatar">
+				<!-- <view class="user-avatar">
 					<image :src="avatarUrl" mode="" class="avatar-img"></image>
-				</view>
+				</view> -->
+				<button class="user-avatar" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
+					<image class="avatar-img" :src="avatarUrl"></image>
+				</button>
 				<view class="user-name-refresh">
 					<view class="name">
-						{{nickName}}
+						<input type="nickname" v-model="nickName" class="weui-input" placeholder="请输入昵称"
+							@blur="setNickName" />
 					</view>
-					<view class="refresh" @click="refreshUser">
+					<!-- <view class="refresh" @click="refreshUser">
 						<i class="iconfont icon-shuaxin"></i>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="user-viewcount-course">
@@ -24,9 +28,6 @@
 					<span class="item-bottom">观看次数</span>
 				</view>
 			</view>
-			<!-- <button class="avatar-wrapper" open-type="chooseAvatar" @chooseavatar="onChooseAvatar">
-			  <image class="avatar" src="{{avatarUrl}}"></image>
-			</button> -->
 		</view>
 		<view class="other-container">
 			<view class="history-more">
@@ -101,16 +102,48 @@
 				historyList: [],
 				avatarUrl: uni.getStorageSync('avatarUrl'),
 				nickName: uni.getStorageSync('nickName'),
+				openid: uni.getStorageSync('openId'),
 				watchCount: '',
 				collectCount: '',
 				eleId: '',
 				courseId: '',
-				lessonId: ''
+				lessonId: '',
+				lessonInfo: null
 			}
+		},
+		computed: {
+
 		},
 		methods: {
 			onChooseAvatar(e) {
 				console.log(e)
+				this.avatarUrl = e.detail.avatarUrl
+				const data = {
+					openid: this.openid,
+					name: this.nickName,
+					url: this.avatarUrl
+				}
+				refreshUser(data).then(rr => {
+					this.avatarUrl = rr.data.avatarUrl
+					this.nickName = rr.data.nickName
+					uni.setStorageSync('avatarUrl', rr.data.avatarUrl);
+					uni.setStorageSync('nickName', rr.data.nickName);
+				})
+			},
+			setNickName(e) {
+				console.log(e)
+				this.nickName = e.detail.value
+				const data = {
+					openid: this.openid,
+					name: this.nickName,
+					url: this.avatarUrl
+				}
+				refreshUser(data).then(rr => {
+					this.avatarUrl = rr.data.avatarUrl
+					this.nickName = rr.data.nickName
+					uni.setStorageSync('avatarUrl', rr.data.avatarUrl);
+					uni.setStorageSync('nickName', rr.data.nickName);
+				})
 			},
 			getHistoryList(id) {
 				getHistoryList(id).then(res => {
@@ -118,6 +151,7 @@
 				})
 			},
 			screenchange(e) {
+				console.log(this.eleId)
 				let videoplay = uni.createVideoContext(this.eleId, this)
 				if (e.detail.fullScreen) {
 					videoplay.play()
@@ -138,19 +172,73 @@
 				}
 			},
 			play(item) {
+				// this.lessonInfo = item
+				let isStart
+				//直播开始时间
+				var startTime = new Date(item.startTime && item.startTime.replace(/-/g, '/')).getTime();
+				//当前时间
+				var cuttentTime = new Date().getTime();
+				//如果开始时间大于当前时间 未开始
+				if (startTime > cuttentTime) {
+					isStart = false
+				} else {
+					//否则 可以跳转视频号或者播放视频
+					isStart = true
+				}
+				let flag
+				if (item.lessonUrl) {
+					//如果lessonInfo.lessonUrl不为空 播放视频 flag = true
+					flag = true //播放视频
+				} else {
+					//如果lessonInfo.lessonUrl不为空 跳转视频号 flag = false
+					flag = false //跳转视频号
+				}
 				this.courseId = item.courseId
 				this.lessonId = item.id
 				this.eleId = 'myVideo' + item.id
-				this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
-				this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
-					direction: 90 // 屏幕逆时针90度
-				});
+				if (isStart) {
+					if (flag) {
+						this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
+						this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+							direction: 90 // 屏幕逆时针90度
+						});
+					} else {
+						// 订阅号跳转
+						uni.openChannelsLive({
+							finderUserName: 'sphfYruhmZYLxXt',
+							success: res => {
+								let data = {
+									courseId: this.lessonInfo.courseId,
+									lessonId: this.lessonInfo.id,
+									wxUserId: uni.getStorageSync('wxUserId')
+								}
+								addUserWatch(data).then(res => {
+									console.log('添加一次直播', res);
+								})
+								console.log('成功打开', res);
+							},
+							fail: res => {
+								console.log('打开失败', res);
+							}
+						})
+					}
+				} else {
+					wx.showModal({
+						title: '课程还未开始',
+						content: '请稍后观看',
+						showCancel: false
+					})
+					return
+				}
+
+
 			},
 			//更新用户
 			refreshUser() {
 				uni.getUserProfile({
 					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
 					success: (res) => {
+						console.log(res)
 						const data = {
 							encryptedData: res.encryptedData,
 							iv: res.iv,
@@ -197,12 +285,12 @@
 						content: 'suezhibojs@163.com',
 						showCancel: false
 					})
-				}else {
-					 uni.showModal({
-					      title: '苏e学堂小程序',
-					      content:'1.0',
-					      showCancel:false
-					    })
+				} else {
+					uni.showModal({
+						title: '苏e学堂小程序',
+						content: '1.0',
+						showCancel: false
+					})
 				}
 
 			},
@@ -222,11 +310,13 @@
 </script>
 
 <style lang="scss">
+	
 	.avatar-wrapper {
 		width: 100rpx;
 		height: 100rpx;
 		background-color: pink;
 	}
+
 	::-webkit-scrollbar {
 		display: none;
 	}
@@ -252,20 +342,27 @@
 			padding-left: 30rpx;
 
 			.user-info {
+				width: 100%;
 				height: 148rpx;
-				display: flex;
+				// display: flex;
 				align-items: center;
 				color: #fff;
 				font-weight: 500;
 				margin-bottom: 34rpx;
+				position: relative;
 
 				.user-avatar {
 					width: 148rpx;
 					height: 148rpx;
-					margin-right: 28rpx;
+					// margin-right: 28rpx;
 					background-color: #fff;
 					border-radius: 50%;
 					overflow: hidden;
+					padding: 0 !important;
+					margin-left: 0;
+					position: absolute;
+					left: 0;
+					top: 0;
 
 					.avatar-img {
 						width: 100%;
@@ -274,6 +371,9 @@
 				}
 
 				.user-name-refresh {
+					position: absolute;
+					left: 176rpx;
+					top: 0;
 					width: auto;
 					height: 148rpx;
 					padding: 10rpx 0;
@@ -283,6 +383,10 @@
 
 					.name {
 						font-size: 42rpx;
+
+						.weui-input {
+							color: #fff;
+						}
 					}
 
 					.refresh {

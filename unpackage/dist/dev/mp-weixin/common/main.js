@@ -168,6 +168,7 @@ __webpack_require__(/*! ./utils/api/login */ 12),userLogin = _require.userLogin;
                       uni.setStorageSync('avatarUrl', rr.data.wxuser.avatarUrl);
                       uni.setStorageSync('nickName', rr.data.wxuser.nickName);
                       uni.setStorageSync('phone', rr.data.wxuser.phoneNumber);
+                      uni.setStorageSync('openId', rr.data.wxuser.openid);
                       // console.log(uni.getStorageSync('phone'), 'app')
                       if (rr.data.hobbies.length != 0) {
                         uni.switchTab({

@@ -278,7 +278,6 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);var rowLi
     }
   },
   onReachBottom: function onReachBottom() {//上拉触底函数
-    console.log(this.flag);
     if (this.page >= this.totalPage) {
       this.loadStatus = 'nomore';
       return;

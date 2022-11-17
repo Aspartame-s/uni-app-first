@@ -121,7 +121,6 @@
 			}
 		},
 		onReachBottom() { //上拉触底函数
-		console.log(this.flag)
 			if (this.page >= this.totalPage) {
 				this.loadStatus = 'nomore'
 				return

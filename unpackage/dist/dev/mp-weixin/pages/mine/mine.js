@@ -200,6 +200,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _global = _interopRequireDefault(__webpack_require__(/*! ../../common/global.js */ 26));
 var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -268,31 +269,118 @@ var _wxuser = __webpack_require__(/*! ../../utils/api/wxuser.js */ 52);function 
 //
 //
 //
-var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 93));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { defaultComponent: defaultComponent }, data: function data() {return { paddingBottom: _global.default.paddingBottom, baseInfoLit: [{ id: 1, iconUrl: _global.default.imgbaseUrl + '/my/about.png', text: '关于我们' }, { id: 2, iconUrl: _global.default.imgbaseUrl + '/my/versions.png', text: '版本信息' }, { id: 3, iconUrl: _global.default.imgbaseUrl + '/my/feedback.png', text: '意见反馈' }], historyList: [], avatarUrl: uni.getStorageSync('avatarUrl'), nickName: uni.getStorageSync('nickName'), watchCount: '', collectCount: '', eleId: '', courseId: '', lessonId: '' };}, methods: { onChooseAvatar: function onChooseAvatar(e) {console.log(e);}, getHistoryList: function getHistoryList(id) {var _this = this;(0, _wxuser.getHistoryList)(id).then(function (res) {_this.historyList = res.data.records.slice(0, 10);});}, screenchange: function screenchange(e) {var _this2 = this;var videoplay = uni.createVideoContext(this.eleId, this);if (e.detail.fullScreen) {videoplay.play();} else {var data = { courseId: this.courseId, lessonId: this.lessonId, wxUserId: uni.getStorageSync('wxUserId') };(0, _wxuser.addUserWatch)(data).then(function (res) {// console.log('添加一次直播', res);
-          if (res.code == 0) {console.log('添加成功');_this2.userWatchCount(uni.getStorageSync('wxUserId'));}});videoplay.pause();}
+//
+var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! require.ensure | components/defaultComponent/defaultComponent */ "components/defaultComponent/defaultComponent").then((function () {return resolve(__webpack_require__(/*! ../../components/defaultComponent/defaultComponent.vue */ 93));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { defaultComponent: defaultComponent }, data: function data() {return { paddingBottom: _global.default.paddingBottom, baseInfoLit: [{ id: 1, iconUrl: _global.default.imgbaseUrl + '/my/about.png', text: '关于我们' }, { id: 2, iconUrl: _global.default.imgbaseUrl + '/my/versions.png', text: '版本信息' }, { id: 3, iconUrl: _global.default.imgbaseUrl + '/my/feedback.png', text: '意见反馈' }], historyList: [], avatarUrl: uni.getStorageSync('avatarUrl'), nickName: uni.getStorageSync('nickName'), openid: uni.getStorageSync('openId'), watchCount: '', collectCount: '', eleId: '', courseId: '', lessonId: '', lessonInfo: null };}, computed: {}, methods: { onChooseAvatar: function onChooseAvatar(e) {var _this = this;console.log(e);this.avatarUrl = e.detail.avatarUrl;var data = { openid: this.openid, name: this.nickName, url: this.avatarUrl };(0, _wxuser.refreshUser)(data).then(function (rr) {_this.avatarUrl = rr.data.avatarUrl;_this.nickName = rr.data.nickName;uni.setStorageSync('avatarUrl', rr.data.avatarUrl);uni.setStorageSync('nickName', rr.data.nickName);});}, setNickName: function setNickName(e) {var _this2 = this;console.log(e);this.nickName = e.detail.value;var data = { openid: this.openid, name: this.nickName, url: this.avatarUrl };
+
+      (0, _wxuser.refreshUser)(data).then(function (rr) {
+        _this2.avatarUrl = rr.data.avatarUrl;
+        _this2.nickName = rr.data.nickName;
+        uni.setStorageSync('avatarUrl', rr.data.avatarUrl);
+        uni.setStorageSync('nickName', rr.data.nickName);
+      });
     },
-    play: function play(item) {
+    getHistoryList: function getHistoryList(id) {var _this3 = this;
+      (0, _wxuser.getHistoryList)(id).then(function (res) {
+        _this3.historyList = res.data.records.slice(0, 10);
+      });
+    },
+    screenchange: function screenchange(e) {var _this4 = this;
+      console.log(this.eleId);
+      var videoplay = uni.createVideoContext(this.eleId, this);
+      if (e.detail.fullScreen) {
+        videoplay.play();
+      } else {
+        var data = {
+          courseId: this.courseId,
+          lessonId: this.lessonId,
+          wxUserId: uni.getStorageSync('wxUserId') };
+
+        (0, _wxuser.addUserWatch)(data).then(function (res) {
+          // console.log('添加一次直播', res);
+          if (res.code == 0) {
+            console.log('添加成功');
+            _this4.userWatchCount(uni.getStorageSync('wxUserId'));
+          }
+        });
+        videoplay.pause();
+      }
+    },
+    play: function play(item) {var _this5 = this;
+      // this.lessonInfo = item
+      var isStart;
+      //直播开始时间
+      var startTime = new Date(item.startTime && item.startTime.replace(/-/g, '/')).getTime();
+      //当前时间
+      var cuttentTime = new Date().getTime();
+      //如果开始时间大于当前时间 未开始
+      if (startTime > cuttentTime) {
+        isStart = false;
+      } else {
+        //否则 可以跳转视频号或者播放视频
+        isStart = true;
+      }
+      var flag;
+      if (item.lessonUrl) {
+        //如果lessonInfo.lessonUrl不为空 播放视频 flag = true
+        flag = true; //播放视频
+      } else {
+        //如果lessonInfo.lessonUrl不为空 跳转视频号 flag = false
+        flag = false; //跳转视频号
+      }
       this.courseId = item.courseId;
       this.lessonId = item.id;
       this.eleId = 'myVideo' + item.id;
-      this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
-      this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
-        direction: 90 // 屏幕逆时针90度
-      });
+      if (isStart) {
+        if (flag) {
+          this.videoContext = uni.createVideoContext(this.eleId, this); // 	创建 video 上下文 VideoContext 对象。
+          this.videoContext.requestFullScreen({ // 设置全屏时视频的方向，不指定则根据宽高比自动判断。
+            direction: 90 // 屏幕逆时针90度
+          });
+        } else {
+          // 订阅号跳转
+          uni.openChannelsLive({
+            finderUserName: 'sphfYruhmZYLxXt',
+            success: function success(res) {
+              var data = {
+                courseId: _this5.lessonInfo.courseId,
+                lessonId: _this5.lessonInfo.id,
+                wxUserId: uni.getStorageSync('wxUserId') };
+
+              (0, _wxuser.addUserWatch)(data).then(function (res) {
+                console.log('添加一次直播', res);
+              });
+              console.log('成功打开', res);
+            },
+            fail: function fail(res) {
+              console.log('打开失败', res);
+            } });
+
+        }
+      } else {
+        wx.showModal({
+          title: '课程还未开始',
+          content: '请稍后观看',
+          showCancel: false });
+
+        return;
+      }
+
+
     },
     //更新用户
-    refreshUser: function refreshUser() {var _this3 = this;
+    refreshUser: function refreshUser() {var _this6 = this;
       uni.getUserProfile({
         desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: function success(res) {
+          console.log(res);
           var data = {
             encryptedData: res.encryptedData,
             iv: res.iv,
             sessionKey: uni.getStorageSync('sessionKey') };
 
           (0, _wxuser.refreshUser)(data).then(function (rr) {
-            _this3.avatarUrl = rr.data.avatarUrl;
-            _this3.nickName = rr.data.nickName;
+            _this6.avatarUrl = rr.data.avatarUrl;
+            _this6.nickName = rr.data.nickName;
             uni.setStorageSync('avatarUrl', rr.data.avatarUrl);
             uni.setStorageSync('nickName', rr.data.nickName);
           });
@@ -300,15 +388,15 @@ var defaultComponent = function defaultComponent() {__webpack_require__.e(/*! re
 
     },
     //获取用户观看次数
-    userWatchCount: function userWatchCount(id) {var _this4 = this;
+    userWatchCount: function userWatchCount(id) {var _this7 = this;
       (0, _wxuser.userWatchCount)(id).then(function (res) {
-        _this4.watchCount = res.data;
+        _this7.watchCount = res.data;
       });
     },
     //获取用户收藏次数
-    userCollectCount: function userCollectCount(id) {var _this5 = this;
+    userCollectCount: function userCollectCount(id) {var _this8 = this;
       (0, _wxuser.userCollectCount)(id).then(function (res) {
-        _this5.collectCount = res.data;
+        _this8.collectCount = res.data;
       });
     },
     //查看更多历史

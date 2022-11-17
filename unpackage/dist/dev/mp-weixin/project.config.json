@@ -19,7 +19,7 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.26.0",
+  "libVersion": "",
   "appid": "wx385157e37e283532",
   "projectname": "苏e学堂",
   "condition": {},

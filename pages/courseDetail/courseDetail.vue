@@ -14,11 +14,10 @@
 		</view>
 		<view class="main-container">
 			<view class="title">
-				第一篇章：学习准备篇
+				{{courseDetail.courseName}}
 			</view>
 			<view class="desc">
-				以直播课的形式进行呈现，课程分为四节课，每节课课时
-				40分钟左右，主要解决学生的坐姿、握笔以及控笔的问题dasdsad
+				{{courseDetail.courseDesc}}
 			</view>
 			
 			<view class="handle-container">

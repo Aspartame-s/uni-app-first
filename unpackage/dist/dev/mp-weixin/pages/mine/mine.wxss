@@ -30,26 +30,34 @@
   padding-left: 30rpx;
 }
 .container .user-container .user-info {
+  width: 100%;
   height: 148rpx;
-  display: flex;
   align-items: center;
   color: #fff;
   font-weight: 500;
   margin-bottom: 34rpx;
+  position: relative;
 }
 .container .user-container .user-info .user-avatar {
   width: 148rpx;
   height: 148rpx;
-  margin-right: 28rpx;
   background-color: #fff;
   border-radius: 50%;
   overflow: hidden;
+  padding: 0 !important;
+  margin-left: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .container .user-container .user-info .user-avatar .avatar-img {
   width: 100%;
   height: 100%;
 }
 .container .user-container .user-info .user-name-refresh {
+  position: absolute;
+  left: 176rpx;
+  top: 0;
   width: auto;
   height: 148rpx;
   padding: 10rpx 0;
@@ -59,6 +67,9 @@
 }
 .container .user-container .user-info .user-name-refresh .name {
   font-size: 42rpx;
+}
+.container .user-container .user-info .user-name-refresh .name .weui-input {
+  color: #fff;
 }
 .container .user-container .user-info .user-name-refresh .refresh .icon-shuaxin {
   font-size: 40rpx;
